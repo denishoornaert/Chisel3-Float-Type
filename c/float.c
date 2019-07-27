@@ -48,26 +48,28 @@ float add(unsigned a, unsigned b) {
     }
     printf("toInt(%i) -> %i\n", Amantissa, toInt(Amantissa, Asign));
     printf("toInt(%i) -> %i\n", Bmantissa, toInt(Bmantissa, Bsign));
+    unsigned Rexponent;
     if((toInt(Amantissa, Asign)+toInt(Bmantissa, Bsign)) > 0) {
         printf("Asign: %u, Bsign: %u\n", Asign, Bsign);
         printf("a > b --> %i > %i\n", toInt(Amantissa, Asign), toInt(Bmantissa, Bsign));
         printf("%u\n", Asign);
         Rsign = 0;
+        Rexponent = Aexponent; // or either Bexponent;
     }
     else if((toInt(Amantissa, Asign)+toInt(Bmantissa, Bsign)) < 0) {
         printf("Asign: %u, Bsign: %u\n", Asign, Bsign);
         printf("a < b --> %i < %i\n", toInt(Amantissa, Asign), toInt(Bmantissa, Bsign));
         printf("%u\n", Bsign);
         Rsign = 1;
+        Rexponent = Aexponent; // or either Bexponent;
     }
     else {
-        printf("HEIN?!\n");
-        // TODO
+        Rsign = 0;
+        Rexponent = 0; // or either Bexponent;
     }
 //    printf("A: %x %x %x\n", Asign, Aexponent, Amantissa);
 //    printf("B: %x %x %x\n", Bsign, Bexponent, Bmantissa);
     // MANIPULATE
-    unsigned Rexponent = Aexponent; // or either Bexponent;
     printf("%i + %i\n", toInt(Amantissa, Asign), toInt(Bmantissa, Bsign));
     unsigned Rmantissa = absoluteValue(toInt(Amantissa, Asign)+toInt(Bmantissa, Bsign));
     printf("%i . %u\n", (toInt(Amantissa, Asign)+toInt(Bmantissa, Bsign)), absoluteValue(toInt(Amantissa, Asign)+toInt(Bmantissa, Bsign)));
@@ -83,7 +85,7 @@ float add(unsigned a, unsigned b) {
 //  printf("Rs : %x -> %x\n", Rsign, (Rsign<<31));
 //  printf("Re : %x -> %x\n", Rexponent, (Rexponent<<23));
     unsigned res = (Rsign<<31)|(Rexponent<<23)|(Rmantissa);
-//    printf("res: %x %f\n", res, *(float*)&res);
+    printf("res: %x %f\n", res, *(float*)&res);
     return *(float*)&res;
 }
 
@@ -113,6 +115,10 @@ int main(int argc, char const *argv[]) {
     count += assert(-134.0625, 2.25);
     count += assert(-2.25, -134.0625);
     count += assert(-134.0625, -2.25);
+    count += assert(3.14, -3.14);
+    count += assert(-3.14, 3.14);
+    count += assert(0.0, 0.0);
+    count += assert(-0.0, -0.0);
     printf("%u tests failed\n", count);
     return 0;
 }
