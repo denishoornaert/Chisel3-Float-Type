@@ -15,7 +15,12 @@ unsigned absoluteValue(int a) {
 }
 
 int toInt(unsigned a, unsigned s) {
-    return (s)? -a:a;
+    if(s) {
+        return -a;
+    }
+    else {
+        return a;
+    }
 }
 
 float add(unsigned a, unsigned b) {
@@ -23,35 +28,49 @@ float add(unsigned a, unsigned b) {
     unsigned Asign = a>>31;
     unsigned Aexponent = (a<<1)>>24;
     unsigned Amantissa = ((a<<9)>>9)|0x00800000;
-//    printf("A: %x %x %x\n", Asign, Aexponent, Amantissa);
+    printf("A: %x %x %x\n", Asign, Aexponent, Amantissa);
     unsigned Bsign = b>>31;
     unsigned Bexponent = (b<<1)>>24;
     unsigned Bmantissa = ((b<<9)>>9)|0x00800000;
-//    printf("B: %x %x %x\n", Bsign, Bexponent, Bmantissa);
+    printf("B: %x %x %x\n", Bsign, Bexponent, Bmantissa);
     // SHIFT EXPONENT
     int difference = Aexponent-Bexponent;
     unsigned Rsign = 0;
     // if Aexp>Bexp
-    if(difference > 0) {
-        Rsign = 0;
+    if(Aexponent > Bexponent) {
         Bexponent = Aexponent;
         Bmantissa = Bmantissa>>difference;
     }
     // if Bexp>Aexp
-    else if(difference < 0) {
-        Rsign = 1;
+    else if(Aexponent < Bexponent) {
         Aexponent = Bexponent;
         Amantissa = Amantissa>>absoluteValue(difference);
     }
-    difference = Amantissa-Bmantissa;
-    Rsign = (difference < 0);
+    printf("toInt(%i) -> %i\n", Amantissa, toInt(Amantissa, Asign));
+    printf("toInt(%i) -> %i\n", Bmantissa, toInt(Bmantissa, Bsign));
+    if((toInt(Amantissa, Asign)+toInt(Bmantissa, Bsign)) > 0) {
+        printf("Asign: %u, Bsign: %u\n", Asign, Bsign);
+        printf("a > b --> %i > %i\n", toInt(Amantissa, Asign), toInt(Bmantissa, Bsign));
+        printf("%u\n", Asign);
+        Rsign = 0;
+    }
+    else if((toInt(Amantissa, Asign)+toInt(Bmantissa, Bsign)) < 0) {
+        printf("Asign: %u, Bsign: %u\n", Asign, Bsign);
+        printf("a < b --> %i < %i\n", toInt(Amantissa, Asign), toInt(Bmantissa, Bsign));
+        printf("%u\n", Bsign);
+        Rsign = 1;
+    }
+    else {
+        printf("HEIN?!\n");
+        // TODO
+    }
 //    printf("A: %x %x %x\n", Asign, Aexponent, Amantissa);
 //    printf("B: %x %x %x\n", Bsign, Bexponent, Bmantissa);
     // MANIPULATE
     unsigned Rexponent = Aexponent; // or either Bexponent;
-    printf("%i + %i\n", toInt(Amantissa, Aexponent), toInt(Bmantissa, Bexponent));
-    unsigned Rmantissa = absoluteValue(toInt(Amantissa, Aexponent)+toInt(Bmantissa, Bexponent));
-    printf("%i . %u\n", (toInt(Amantissa, Aexponent)+toInt(Bmantissa, Bexponent)), absoluteValue(toInt(Amantissa, Aexponent)+toInt(Bmantissa, Bexponent)));
+    printf("%i + %i\n", toInt(Amantissa, Asign), toInt(Bmantissa, Bsign));
+    unsigned Rmantissa = absoluteValue(toInt(Amantissa, Asign)+toInt(Bmantissa, Bsign));
+    printf("%i . %u\n", (toInt(Amantissa, Asign)+toInt(Bmantissa, Bsign)), absoluteValue(toInt(Amantissa, Asign)+toInt(Bmantissa, Bsign)));
     // TRUNCATION
 //    printf("%x\n", Rsign);
     Rsign = Rsign&0x00000001;
@@ -69,6 +88,7 @@ float add(unsigned a, unsigned b) {
 }
 
 unsigned char assert(float a, float b) {
+    printf("-----------------------------------\n");
     unsigned char assertionResult = 0;
     float r = a+b;
     float t = add(*(unsigned*)&a, *(unsigned*)&b);
