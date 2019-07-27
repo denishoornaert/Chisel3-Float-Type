@@ -1,0 +1,741 @@
+{
+    "version" : "1.1.0-M2",
+    "project" : {
+        "name" : "chisel3-float-type-test",
+        "directory" : "/home/denishoornaert/Github/Chisel3-Float-Type",
+        "sources" : [
+            "/home/denishoornaert/Github/Chisel3-Float-Type/src/test/scala-2.11",
+            "/home/denishoornaert/Github/Chisel3-Float-Type/src/test/scala",
+            "/home/denishoornaert/Github/Chisel3-Float-Type/src/test/java",
+            "/home/denishoornaert/Github/Chisel3-Float-Type/target/scala-2.11/src_managed/test"
+        ],
+        "dependencies" : [
+            "chisel3-float-type"
+        ],
+        "classpath" : [
+            "/home/denishoornaert/Github/Chisel3-Float-Type/.bloop/chisel3-float-type/scala-2.11/classes",
+            "/home/denishoornaert/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.12.jar",
+            "/home/denishoornaert/.ivy2/cache/edu.berkeley.cs/chisel3_2.11/jars/chisel3_2.11-3.1.7.jar",
+            "/home/denishoornaert/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.11.12.jar",
+            "/home/denishoornaert/.ivy2/cache/com.github.scopt/scopt_2.11/jars/scopt_2.11-3.7.0.jar",
+            "/home/denishoornaert/.ivy2/cache/edu.berkeley.cs/firrtl_2.11/jars/firrtl_2.11-1.1.7.jar",
+            "/home/denishoornaert/.ivy2/cache/org.antlr/antlr4/jars/antlr4-4.7.1.jar",
+            "/home/denishoornaert/.ivy2/cache/org.antlr/antlr4-runtime/jars/antlr4-runtime-4.7.1.jar",
+            "/home/denishoornaert/.ivy2/cache/org.antlr/antlr-runtime/jars/antlr-runtime-3.5.2.jar",
+            "/home/denishoornaert/.ivy2/cache/org.antlr/ST4/jars/ST4-4.0.8.jar",
+            "/home/denishoornaert/.ivy2/cache/org.abego.treelayout/org.abego.treelayout.core/bundles/org.abego.treelayout.core-1.0.3.jar",
+            "/home/denishoornaert/.ivy2/cache/org.glassfish/javax.json/bundles/javax.json-1.0.4.jar",
+            "/home/denishoornaert/.ivy2/cache/com.ibm.icu/icu4j/jars/icu4j-58.2.jar",
+            "/home/denishoornaert/.ivy2/cache/com.typesafe.scala-logging/scala-logging_2.11/bundles/scala-logging_2.11-3.7.2.jar",
+            "/home/denishoornaert/.ivy2/cache/org.slf4j/slf4j-api/jars/slf4j-api-1.7.25.jar",
+            "/home/denishoornaert/.ivy2/cache/ch.qos.logback/logback-classic/jars/logback-classic-1.2.3.jar",
+            "/home/denishoornaert/.ivy2/cache/ch.qos.logback/logback-core/jars/logback-core-1.2.3.jar",
+            "/home/denishoornaert/.ivy2/cache/net.jcazevedo/moultingyaml_2.11/jars/moultingyaml_2.11-0.4.0.jar",
+            "/home/denishoornaert/.ivy2/cache/com.github.nscala-time/nscala-time_2.11/jars/nscala-time_2.11-2.14.0.jar",
+            "/home/denishoornaert/.ivy2/cache/joda-time/joda-time/jars/joda-time-2.9.4.jar",
+            "/home/denishoornaert/.ivy2/cache/org.joda/joda-convert/jars/joda-convert-1.2.jar",
+            "/home/denishoornaert/.ivy2/cache/org.yaml/snakeyaml/bundles/snakeyaml-1.17.jar",
+            "/home/denishoornaert/.ivy2/cache/org.json4s/json4s-native_2.11/jars/json4s-native_2.11-3.5.3.jar",
+            "/home/denishoornaert/.ivy2/cache/org.json4s/json4s-core_2.11/jars/json4s-core_2.11-3.5.3.jar",
+            "/home/denishoornaert/.ivy2/cache/org.json4s/json4s-ast_2.11/jars/json4s-ast_2.11-3.5.3.jar",
+            "/home/denishoornaert/.ivy2/cache/org.json4s/json4s-scalap_2.11/jars/json4s-scalap_2.11-3.5.3.jar",
+            "/home/denishoornaert/.ivy2/cache/com.thoughtworks.paranamer/paranamer/bundles/paranamer-2.8.jar",
+            "/home/denishoornaert/.ivy2/cache/org.scala-lang.modules/scala-xml_2.11/bundles/scala-xml_2.11-1.0.6.jar",
+            "/home/denishoornaert/.ivy2/cache/edu.berkeley.cs/chisel-iotesters_2.11/jars/chisel-iotesters_2.11-1.2.9.jar",
+            "/home/denishoornaert/.ivy2/cache/edu.berkeley.cs/firrtl-interpreter_2.11/jars/firrtl-interpreter_2.11-1.1.7.jar",
+            "/home/denishoornaert/.ivy2/cache/org.scalatest/scalatest_2.11/bundles/scalatest_2.11-3.0.1.jar",
+            "/home/denishoornaert/.ivy2/cache/org.scalactic/scalactic_2.11/bundles/scalactic_2.11-3.0.1.jar",
+            "/home/denishoornaert/.ivy2/cache/org.scala-lang.modules/scala-parser-combinators_2.11/bundles/scala-parser-combinators_2.11-1.0.4.jar",
+            "/home/denishoornaert/.ivy2/cache/org.scalacheck/scalacheck_2.11/jars/scalacheck_2.11-1.13.4.jar",
+            "/home/denishoornaert/.ivy2/cache/org.scala-sbt/test-interface/jars/test-interface-1.0.jar",
+            "/home/denishoornaert/.ivy2/cache/org.scala-lang.modules/scala-jline/bundles/scala-jline-2.12.1.jar",
+            "/home/denishoornaert/.ivy2/cache/org.fusesource.jansi/jansi/jars/jansi-1.11.jar",
+            "/home/denishoornaert/.ivy2/cache/edu.berkeley.cs/treadle_2.11/jars/treadle_2.11-1.0.5.jar"
+        ],
+        "out" : "/home/denishoornaert/Github/Chisel3-Float-Type/.bloop/chisel3-float-type",
+        "classesDir" : "/home/denishoornaert/Github/Chisel3-Float-Type/.bloop/chisel3-float-type/scala-2.11/test-classes",
+        "resources" : [
+            "/home/denishoornaert/Github/Chisel3-Float-Type/src/test/resources",
+            "/home/denishoornaert/Github/Chisel3-Float-Type/target/scala-2.11/resource_managed/test"
+        ],
+        "scala" : {
+            "organization" : "org.scala-lang",
+            "name" : "scala-compiler",
+            "version" : "2.11.12",
+            "options" : [
+                "-P:semanticdb:failures:warning",
+                "-P:semanticdb:sourceroot:/home/denishoornaert/Github/Chisel3-Float-Type",
+                "-Yrangepos",
+                "-Xplugin-require:semanticdb",
+                "-Xplugin:/home/denishoornaert/.ivy2/cache/org.scalameta/semanticdb-scalac_2.11.12/jars/semanticdb-scalac_2.11.12-4.1.0.jar"
+            ],
+            "jars" : [
+                "/home/denishoornaert/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.12.jar",
+                "/home/denishoornaert/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.12.jar",
+                "/home/denishoornaert/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.11.12.jar",
+                "/home/denishoornaert/.ivy2/cache/org.scala-lang.modules/scala-xml_2.11/bundles/scala-xml_2.11-1.0.5.jar",
+                "/home/denishoornaert/.ivy2/cache/org.scala-lang.modules/scala-parser-combinators_2.11/bundles/scala-parser-combinators_2.11-1.0.4.jar",
+                "/home/denishoornaert/.ivy2/cache/jline/jline/jars/jline-2.14.3.jar"
+            ],
+            "setup" : {
+                "order" : "mixed",
+                "addLibraryToBootClasspath" : true,
+                "addCompilerToClasspath" : false,
+                "addExtraJarsToClasspath" : false,
+                "manageBootClasspath" : true,
+                "filterLibraryFromClasspath" : true
+            }
+        },
+        "java" : {
+            "options" : [
+                "-source",
+                "1.7",
+                "-target",
+                "1.7"
+            ]
+        },
+        "test" : {
+            "frameworks" : [
+                {
+                    "names" : [
+                        "org.scalacheck.ScalaCheckFramework"
+                    ]
+                },
+                {
+                    "names" : [
+                        "org.specs2.runner.Specs2Framework",
+                        "org.specs2.runner.SpecsFramework"
+                    ]
+                },
+                {
+                    "names" : [
+                        "org.specs.runner.SpecsFramework"
+                    ]
+                },
+                {
+                    "names" : [
+                        "org.scalatest.tools.Framework",
+                        "org.scalatest.tools.ScalaTestFramework"
+                    ]
+                },
+                {
+                    "names" : [
+                        "com.novocode.junit.JUnitFramework"
+                    ]
+                }
+            ],
+            "options" : {
+                "excludes" : [
+                ],
+                "arguments" : [
+                ]
+            }
+        },
+        "platform" : {
+            "name" : "jvm",
+            "config" : {
+                "home" : "/usr/lib/jvm/java-8-openjdk-amd64/jre",
+                "options" : [
+                ]
+            },
+            "mainClass" : [
+            ]
+        },
+        "resolution" : {
+            "modules" : [
+                {
+                    "organization" : "org.scala-lang",
+                    "name" : "scala-library",
+                    "version" : "2.11.12",
+                    "artifacts" : [
+                        {
+                            "name" : "scala-library",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.12.jar"
+                        },
+                        {
+                            "name" : "scala-library",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.11.12-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "edu.berkeley.cs",
+                    "name" : "chisel3_2.11",
+                    "version" : "3.1.7",
+                    "artifacts" : [
+                        {
+                            "name" : "chisel3_2.11",
+                            "path" : "/home/denishoornaert/.ivy2/cache/edu.berkeley.cs/chisel3_2.11/jars/chisel3_2.11-3.1.7.jar"
+                        },
+                        {
+                            "name" : "chisel3_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/edu.berkeley.cs/chisel3_2.11/srcs/chisel3_2.11-3.1.7-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.scala-lang",
+                    "name" : "scala-reflect",
+                    "version" : "2.11.12",
+                    "artifacts" : [
+                        {
+                            "name" : "scala-reflect",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.11.12.jar"
+                        },
+                        {
+                            "name" : "scala-reflect",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.scala-lang/scala-reflect/srcs/scala-reflect-2.11.12-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "com.github.scopt",
+                    "name" : "scopt_2.11",
+                    "version" : "3.7.0",
+                    "artifacts" : [
+                        {
+                            "name" : "scopt_2.11",
+                            "path" : "/home/denishoornaert/.ivy2/cache/com.github.scopt/scopt_2.11/jars/scopt_2.11-3.7.0.jar"
+                        },
+                        {
+                            "name" : "scopt_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/com.github.scopt/scopt_2.11/srcs/scopt_2.11-3.7.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "edu.berkeley.cs",
+                    "name" : "firrtl_2.11",
+                    "version" : "1.1.7",
+                    "artifacts" : [
+                        {
+                            "name" : "firrtl_2.11",
+                            "path" : "/home/denishoornaert/.ivy2/cache/edu.berkeley.cs/firrtl_2.11/jars/firrtl_2.11-1.1.7.jar"
+                        },
+                        {
+                            "name" : "firrtl_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/edu.berkeley.cs/firrtl_2.11/srcs/firrtl_2.11-1.1.7-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.antlr",
+                    "name" : "antlr4",
+                    "version" : "4.7.1",
+                    "artifacts" : [
+                        {
+                            "name" : "antlr4",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.antlr/antlr4/jars/antlr4-4.7.1.jar"
+                        },
+                        {
+                            "name" : "antlr4",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.antlr/antlr4/srcs/antlr4-4.7.1-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.antlr",
+                    "name" : "antlr4-runtime",
+                    "version" : "4.7.1",
+                    "artifacts" : [
+                        {
+                            "name" : "antlr4-runtime",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.antlr/antlr4-runtime/jars/antlr4-runtime-4.7.1.jar"
+                        },
+                        {
+                            "name" : "antlr4-runtime",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.antlr/antlr4-runtime/srcs/antlr4-runtime-4.7.1-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.antlr",
+                    "name" : "antlr-runtime",
+                    "version" : "3.5.2",
+                    "artifacts" : [
+                        {
+                            "name" : "antlr-runtime",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.antlr/antlr-runtime/jars/antlr-runtime-3.5.2.jar"
+                        },
+                        {
+                            "name" : "antlr-runtime",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.antlr/antlr-runtime/srcs/antlr-runtime-3.5.2-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.antlr",
+                    "name" : "ST4",
+                    "version" : "4.0.8",
+                    "artifacts" : [
+                        {
+                            "name" : "ST4",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.antlr/ST4/jars/ST4-4.0.8.jar"
+                        },
+                        {
+                            "name" : "ST4",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.antlr/ST4/srcs/ST4-4.0.8-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.abego.treelayout",
+                    "name" : "org.abego.treelayout.core",
+                    "version" : "1.0.3",
+                    "artifacts" : [
+                        {
+                            "name" : "org.abego.treelayout.core",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.abego.treelayout/org.abego.treelayout.core/bundles/org.abego.treelayout.core-1.0.3.jar"
+                        },
+                        {
+                            "name" : "org.abego.treelayout.core",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.abego.treelayout/org.abego.treelayout.core/srcs/org.abego.treelayout.core-1.0.3-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.glassfish",
+                    "name" : "javax.json",
+                    "version" : "1.0.4",
+                    "artifacts" : [
+                        {
+                            "name" : "javax.json",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.glassfish/javax.json/bundles/javax.json-1.0.4.jar"
+                        },
+                        {
+                            "name" : "javax.json",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.glassfish/javax.json/srcs/javax.json-1.0.4-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "com.ibm.icu",
+                    "name" : "icu4j",
+                    "version" : "58.2",
+                    "artifacts" : [
+                        {
+                            "name" : "icu4j",
+                            "path" : "/home/denishoornaert/.ivy2/cache/com.ibm.icu/icu4j/jars/icu4j-58.2.jar"
+                        },
+                        {
+                            "name" : "icu4j",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/com.ibm.icu/icu4j/srcs/icu4j-58.2-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "com.typesafe.scala-logging",
+                    "name" : "scala-logging_2.11",
+                    "version" : "3.7.2",
+                    "artifacts" : [
+                        {
+                            "name" : "scala-logging_2.11",
+                            "path" : "/home/denishoornaert/.ivy2/cache/com.typesafe.scala-logging/scala-logging_2.11/bundles/scala-logging_2.11-3.7.2.jar"
+                        },
+                        {
+                            "name" : "scala-logging_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/com.typesafe.scala-logging/scala-logging_2.11/srcs/scala-logging_2.11-3.7.2-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.slf4j",
+                    "name" : "slf4j-api",
+                    "version" : "1.7.25",
+                    "artifacts" : [
+                        {
+                            "name" : "slf4j-api",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.slf4j/slf4j-api/jars/slf4j-api-1.7.25.jar"
+                        },
+                        {
+                            "name" : "slf4j-api",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.slf4j/slf4j-api/srcs/slf4j-api-1.7.25-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "ch.qos.logback",
+                    "name" : "logback-classic",
+                    "version" : "1.2.3",
+                    "artifacts" : [
+                        {
+                            "name" : "logback-classic",
+                            "path" : "/home/denishoornaert/.ivy2/cache/ch.qos.logback/logback-classic/jars/logback-classic-1.2.3.jar"
+                        },
+                        {
+                            "name" : "logback-classic",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/ch.qos.logback/logback-classic/srcs/logback-classic-1.2.3-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "ch.qos.logback",
+                    "name" : "logback-core",
+                    "version" : "1.2.3",
+                    "artifacts" : [
+                        {
+                            "name" : "logback-core",
+                            "path" : "/home/denishoornaert/.ivy2/cache/ch.qos.logback/logback-core/jars/logback-core-1.2.3.jar"
+                        },
+                        {
+                            "name" : "logback-core",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/ch.qos.logback/logback-core/srcs/logback-core-1.2.3-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "net.jcazevedo",
+                    "name" : "moultingyaml_2.11",
+                    "version" : "0.4.0",
+                    "artifacts" : [
+                        {
+                            "name" : "moultingyaml_2.11",
+                            "path" : "/home/denishoornaert/.ivy2/cache/net.jcazevedo/moultingyaml_2.11/jars/moultingyaml_2.11-0.4.0.jar"
+                        },
+                        {
+                            "name" : "moultingyaml_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/net.jcazevedo/moultingyaml_2.11/srcs/moultingyaml_2.11-0.4.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "com.github.nscala-time",
+                    "name" : "nscala-time_2.11",
+                    "version" : "2.14.0",
+                    "artifacts" : [
+                        {
+                            "name" : "nscala-time_2.11",
+                            "path" : "/home/denishoornaert/.ivy2/cache/com.github.nscala-time/nscala-time_2.11/jars/nscala-time_2.11-2.14.0.jar"
+                        },
+                        {
+                            "name" : "nscala-time_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/com.github.nscala-time/nscala-time_2.11/srcs/nscala-time_2.11-2.14.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "joda-time",
+                    "name" : "joda-time",
+                    "version" : "2.9.4",
+                    "artifacts" : [
+                        {
+                            "name" : "joda-time",
+                            "path" : "/home/denishoornaert/.ivy2/cache/joda-time/joda-time/jars/joda-time-2.9.4.jar"
+                        },
+                        {
+                            "name" : "joda-time",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/joda-time/joda-time/srcs/joda-time-2.9.4-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.joda",
+                    "name" : "joda-convert",
+                    "version" : "1.2",
+                    "artifacts" : [
+                        {
+                            "name" : "joda-convert",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.joda/joda-convert/jars/joda-convert-1.2.jar"
+                        },
+                        {
+                            "name" : "joda-convert",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.joda/joda-convert/srcs/joda-convert-1.2-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.yaml",
+                    "name" : "snakeyaml",
+                    "version" : "1.17",
+                    "artifacts" : [
+                        {
+                            "name" : "snakeyaml",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.yaml/snakeyaml/bundles/snakeyaml-1.17.jar"
+                        },
+                        {
+                            "name" : "snakeyaml",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.yaml/snakeyaml/srcs/snakeyaml-1.17-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.json4s",
+                    "name" : "json4s-native_2.11",
+                    "version" : "3.5.3",
+                    "artifacts" : [
+                        {
+                            "name" : "json4s-native_2.11",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.json4s/json4s-native_2.11/jars/json4s-native_2.11-3.5.3.jar"
+                        },
+                        {
+                            "name" : "json4s-native_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.json4s/json4s-native_2.11/srcs/json4s-native_2.11-3.5.3-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.json4s",
+                    "name" : "json4s-core_2.11",
+                    "version" : "3.5.3",
+                    "artifacts" : [
+                        {
+                            "name" : "json4s-core_2.11",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.json4s/json4s-core_2.11/jars/json4s-core_2.11-3.5.3.jar"
+                        },
+                        {
+                            "name" : "json4s-core_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.json4s/json4s-core_2.11/srcs/json4s-core_2.11-3.5.3-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.json4s",
+                    "name" : "json4s-ast_2.11",
+                    "version" : "3.5.3",
+                    "artifacts" : [
+                        {
+                            "name" : "json4s-ast_2.11",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.json4s/json4s-ast_2.11/jars/json4s-ast_2.11-3.5.3.jar"
+                        },
+                        {
+                            "name" : "json4s-ast_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.json4s/json4s-ast_2.11/srcs/json4s-ast_2.11-3.5.3-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.json4s",
+                    "name" : "json4s-scalap_2.11",
+                    "version" : "3.5.3",
+                    "artifacts" : [
+                        {
+                            "name" : "json4s-scalap_2.11",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.json4s/json4s-scalap_2.11/jars/json4s-scalap_2.11-3.5.3.jar"
+                        },
+                        {
+                            "name" : "json4s-scalap_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.json4s/json4s-scalap_2.11/srcs/json4s-scalap_2.11-3.5.3-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "com.thoughtworks.paranamer",
+                    "name" : "paranamer",
+                    "version" : "2.8",
+                    "artifacts" : [
+                        {
+                            "name" : "paranamer",
+                            "path" : "/home/denishoornaert/.ivy2/cache/com.thoughtworks.paranamer/paranamer/bundles/paranamer-2.8.jar"
+                        },
+                        {
+                            "name" : "paranamer",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/com.thoughtworks.paranamer/paranamer/srcs/paranamer-2.8-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.scala-lang.modules",
+                    "name" : "scala-xml_2.11",
+                    "version" : "1.0.6",
+                    "artifacts" : [
+                        {
+                            "name" : "scala-xml_2.11",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.scala-lang.modules/scala-xml_2.11/bundles/scala-xml_2.11-1.0.6.jar"
+                        },
+                        {
+                            "name" : "scala-xml_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.scala-lang.modules/scala-xml_2.11/srcs/scala-xml_2.11-1.0.6-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "edu.berkeley.cs",
+                    "name" : "chisel-iotesters_2.11",
+                    "version" : "1.2.9",
+                    "artifacts" : [
+                        {
+                            "name" : "chisel-iotesters_2.11",
+                            "path" : "/home/denishoornaert/.ivy2/cache/edu.berkeley.cs/chisel-iotesters_2.11/jars/chisel-iotesters_2.11-1.2.9.jar"
+                        },
+                        {
+                            "name" : "chisel-iotesters_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/edu.berkeley.cs/chisel-iotesters_2.11/srcs/chisel-iotesters_2.11-1.2.9-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "edu.berkeley.cs",
+                    "name" : "firrtl-interpreter_2.11",
+                    "version" : "1.1.7",
+                    "artifacts" : [
+                        {
+                            "name" : "firrtl-interpreter_2.11",
+                            "path" : "/home/denishoornaert/.ivy2/cache/edu.berkeley.cs/firrtl-interpreter_2.11/jars/firrtl-interpreter_2.11-1.1.7.jar"
+                        },
+                        {
+                            "name" : "firrtl-interpreter_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/edu.berkeley.cs/firrtl-interpreter_2.11/srcs/firrtl-interpreter_2.11-1.1.7-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.scalatest",
+                    "name" : "scalatest_2.11",
+                    "version" : "3.0.1",
+                    "artifacts" : [
+                        {
+                            "name" : "scalatest_2.11",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.scalatest/scalatest_2.11/bundles/scalatest_2.11-3.0.1.jar"
+                        },
+                        {
+                            "name" : "scalatest_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.scalatest/scalatest_2.11/srcs/scalatest_2.11-3.0.1-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.scalactic",
+                    "name" : "scalactic_2.11",
+                    "version" : "3.0.1",
+                    "artifacts" : [
+                        {
+                            "name" : "scalactic_2.11",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.scalactic/scalactic_2.11/bundles/scalactic_2.11-3.0.1.jar"
+                        },
+                        {
+                            "name" : "scalactic_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.scalactic/scalactic_2.11/srcs/scalactic_2.11-3.0.1-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.scala-lang.modules",
+                    "name" : "scala-parser-combinators_2.11",
+                    "version" : "1.0.4",
+                    "artifacts" : [
+                        {
+                            "name" : "scala-parser-combinators_2.11",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.scala-lang.modules/scala-parser-combinators_2.11/bundles/scala-parser-combinators_2.11-1.0.4.jar"
+                        },
+                        {
+                            "name" : "scala-parser-combinators_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.scala-lang.modules/scala-parser-combinators_2.11/srcs/scala-parser-combinators_2.11-1.0.4-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.scalacheck",
+                    "name" : "scalacheck_2.11",
+                    "version" : "1.13.4",
+                    "artifacts" : [
+                        {
+                            "name" : "scalacheck_2.11",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.scalacheck/scalacheck_2.11/jars/scalacheck_2.11-1.13.4.jar"
+                        },
+                        {
+                            "name" : "scalacheck_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.scalacheck/scalacheck_2.11/srcs/scalacheck_2.11-1.13.4-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.scala-sbt",
+                    "name" : "test-interface",
+                    "version" : "1.0",
+                    "artifacts" : [
+                        {
+                            "name" : "test-interface",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.scala-sbt/test-interface/jars/test-interface-1.0.jar"
+                        },
+                        {
+                            "name" : "test-interface",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.scala-sbt/test-interface/srcs/test-interface-1.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.scala-lang.modules",
+                    "name" : "scala-jline",
+                    "version" : "2.12.1",
+                    "artifacts" : [
+                        {
+                            "name" : "scala-jline",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.scala-lang.modules/scala-jline/bundles/scala-jline-2.12.1.jar"
+                        },
+                        {
+                            "name" : "scala-jline",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.scala-lang.modules/scala-jline/srcs/scala-jline-2.12.1-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.fusesource.jansi",
+                    "name" : "jansi",
+                    "version" : "1.11",
+                    "artifacts" : [
+                        {
+                            "name" : "jansi",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.fusesource.jansi/jansi/jars/jansi-1.11.jar"
+                        },
+                        {
+                            "name" : "jansi",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/org.fusesource.jansi/jansi/srcs/jansi-1.11-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "edu.berkeley.cs",
+                    "name" : "treadle_2.11",
+                    "version" : "1.0.5",
+                    "artifacts" : [
+                        {
+                            "name" : "treadle_2.11",
+                            "path" : "/home/denishoornaert/.ivy2/cache/edu.berkeley.cs/treadle_2.11/jars/treadle_2.11-1.0.5.jar"
+                        },
+                        {
+                            "name" : "treadle_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/denishoornaert/.ivy2/cache/edu.berkeley.cs/treadle_2.11/srcs/treadle_2.11-1.0.5-sources.jar"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
