@@ -14,7 +14,7 @@ class FPU extends Module {
     val op1 = Float.init(io.operand1)
     val op2 = Float.init(io.operand2)
 
-    val res = op1+op2
+    val res = Float.add(op1, op2)
     io.result := res.asUInt
 
 }
