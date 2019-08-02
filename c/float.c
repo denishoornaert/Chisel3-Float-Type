@@ -5,6 +5,7 @@
 #define INF  0
 #define NINF 1
 #define aN   2
+#define NaN  3
 
 unsigned identify(unsigned f) {
     unsigned sign = f>>31;
@@ -20,7 +21,7 @@ unsigned identify(unsigned f) {
             }
         }
         else {
-            return aN;
+            return NaN;
         }
     }
     else {
@@ -75,7 +76,7 @@ float add(unsigned a, unsigned b) {
             Bmantissa = Bmantissa>>difference;
         }
         // if Bexp>Aexp
-        else if(Aexponent < Bexponent) {
+        else{
             Aexponent = Bexponent;
             Amantissa = Amantissa>>absoluteValue(difference);
         }
@@ -96,10 +97,7 @@ float add(unsigned a, unsigned b) {
         unsigned Rmantissa = absoluteValue(toInt(Amantissa, Asign)+toInt(Bmantissa, Bsign));
         if((Rmantissa&0x01000000) == 0x01000000) {
             Rexponent = Rexponent+1;
-            if((Rmantissa&0x00000001) == 0x00000001) {
-                Rmantissa = Rmantissa+1;
-            }
-            Rmantissa = Rmantissa>>1;
+            Rmantissa = (Rmantissa+1)>>1;
         }
         // TRUNCATION
         Rsign = Rsign&0x00000001;
@@ -111,52 +109,151 @@ float add(unsigned a, unsigned b) {
     return *(float*)&res;
 }
 
-unsigned char assert(float a, float b) {
+unsigned char assertAdd(float a, float b) {
     //printf("--------------------------------------\n");
     unsigned char assertionResult = 0;
     float r = a+b;
     float t = add(*(unsigned*)&a, *(unsigned*)&b);
     if((r == t)||((*(unsigned*)&r) == (*(unsigned*)&t))) {
+        //printf("Passed: %f(%08x)+%f(%x) should be %f(%08x) but %f(%08x) found.\n", a, *(unsigned*)&a, b, *(unsigned*)&b, r, *(unsigned*)&r, t, *(unsigned*)&t);
         assertionResult = 0;
     }
     else {
-        printf("Error: %f+%f should be %f(0x%x) but %f(0x%x) found.\n", a, b, r, *(unsigned*)&r, t, *(unsigned*)&t);
+        printf("Error : %f(%08x)+%f(%08x) should be %f(%08x) but %f(%08x) found.\n", a, *(unsigned*)&a, b, *(unsigned*)&b, r, *(unsigned*)&r, t, *(unsigned*)&t);
         assertionResult = 1;
     }
     return assertionResult;
 }
 
-int main(int argc, char const *argv[]) {
+void testAdd() {
     unsigned char count = 0;
     // Static tests part (corner cases)
-    count += assert(2.25, 134.0625);
-    count += assert(134.0625, 2.25);
-    count += assert(-2.25, 134.0625);
-    count += assert(134.0625, -2.25);
-    count += assert(2.25, -134.0625);
-    count += assert(-134.0625, 2.25);
-    count += assert(-2.25, -134.0625);
-    count += assert(-134.0625, -2.25);
-    count += assert(3.14, -3.14);
-    count += assert(-3.14, 3.14);
-    count += assert(0.0, 0.0);
-    count += assert(-0.0, -0.0);
-    count += assert(NAN, 45.0);
-    count += assert(NAN, -45.0);
-    count += assert(-NAN, 45.0);
-    count += assert(-NAN, -45.0);
-    count += assert(INFINITY, 0.1);
-    count += assert(INFINITY, -0.1);
-    count += assert(-INFINITY, 0.1);
-    count += assert(-INFINITY, -0.1);
-    count += assert(INFINITY, INFINITY);
-    count += assert(INFINITY, -INFINITY);
+    count += assertAdd(2.25, 134.0625);
+    count += assertAdd(134.0625, 2.25);
+    count += assertAdd(-2.25, 134.0625);
+    count += assertAdd(134.0625, -2.25);
+    count += assertAdd(2.25, -134.0625);
+    count += assertAdd(-134.0625, 2.25);
+    count += assertAdd(-2.25, -134.0625);
+    count += assertAdd(-134.0625, -2.25);
+    count += assertAdd(3.14, -3.14);
+    count += assertAdd(-3.14, 3.14);
+    count += assertAdd(0.0, 0.0);
+    count += assertAdd(-0.0, -0.0);
+    count += assertAdd(NAN, 45.0);
+    count += assertAdd(NAN, -45.0);
+    count += assertAdd(-NAN, 45.0);
+    count += assertAdd(-NAN, -45.0);
+    count += assertAdd(INFINITY, 0.1);
+    count += assertAdd(INFINITY, -0.1);
+    count += assertAdd(-INFINITY, 0.1);
+    count += assertAdd(-INFINITY, -0.1);
+    count += assertAdd(INFINITY, INFINITY);
+    count += assertAdd(INFINITY, -INFINITY);
     // Random tests
     for (size_t i = 0; i < 100; i++) {
         float f1 = (float)rand()/RAND_MAX;
         float f2 = (float)rand()/RAND_MAX;
-        count += assert(f1, f2);
+        count += assertAdd(f1, f2);
     }
     printf("%u tests failed\n", count);
+}
+
+float mul(unsigned a, unsigned b) {
+    // SETUP
+    unsigned res;
+    // SPLIT
+    unsigned Asign = a>>31;
+    unsigned Aexponent = (a<<1)>>24;
+    unsigned Amantissa = ((a<<9)>>9)|0x00800000;
+    unsigned Bsign = b>>31;
+    unsigned Bexponent = (b<<1)>>24;
+    unsigned Bmantissa = ((b<<9)>>9)|0x00800000;
+    unsigned Aidentity = identify(a);
+    unsigned Bidentity = identify(b);
+    if(Aidentity == INF | Aidentity == NINF | Bidentity == INF | Bidentity == NINF) {
+        res = 0x7f800000|((Asign^Bsign)<<31);
+    }
+    else if(Aidentity == NaN) {
+        res = 0x7fc00000|(Asign<<31);
+    }
+    else if(Bidentity == NaN) {
+        res = 0x7fc00000|(Bsign<<31);
+    }
+    else {
+        // Sign
+        unsigned Rsign = Asign^Bsign;
+        // Exponent
+        unsigned Rexponent = (Aexponent+Bexponent)? (Aexponent+Bexponent-127):0;
+        // Mantissa
+        unsigned Rmantissa = (((unsigned long)Amantissa*(unsigned long)Bmantissa)>>23);
+        // UPDATE WHEN OVERFLOW
+        if((Rmantissa&0x01000000) == 0x01000000) {
+            Rexponent = Rexponent+1;
+            Rmantissa = (Rmantissa+1)>>1;
+        }
+        // TRUNCATION
+        Rsign = Rsign&0x00000001;
+        Rexponent = Rexponent&0x000000ff;
+        Rmantissa = Rmantissa&0x007fffff;
+        // CONCATENATION
+        res = (Rsign<<31)|(Rexponent<<23)|(Rmantissa);
+    }
+    return *(float*)&res;
+}
+
+unsigned char assertMul(float a, float b) {
+    //printf("--------------------------------------\n");
+    unsigned char assertionResult = 0;
+    float r = a*b;
+    float t = mul(*(unsigned*)&a, *(unsigned*)&b);
+    if((r == t)||((*(unsigned*)&r) == (*(unsigned*)&t))) {
+        assertionResult = 0;
+    }
+    else {
+        printf("Error : %f*%f should be %f(%08x) but %f(%08x) found.\n", a, b, r, *(unsigned*)&r, t, *(unsigned*)&t);
+        //printf("Error : %f(%08x)*%f(%08x) should be %f(%08x) but %f(%08x) found.\n", a, *(unsigned*)&a, b, *(unsigned*)&b, r, *(unsigned*)&r, t, *(unsigned*)&t);
+        assertionResult = 1;
+    }
+    return assertionResult;
+}
+
+void testMul() {
+    unsigned char count = 0;
+    // Static tests part (corner cases)
+    count += assertMul(2.25, 134.0625);
+    count += assertMul(134.0625, 2.25);
+    count += assertMul(-2.25, 134.0625);
+    count += assertMul(134.0625, -2.25);
+    count += assertMul(2.25, -134.0625);
+    count += assertMul(-134.0625, 2.25);
+    count += assertMul(-2.25, -134.0625);
+    count += assertMul(-134.0625, -2.25);
+    count += assertMul(3.14, -3.14);
+    count += assertMul(-3.14, 3.14);
+    count += assertMul(0.0, 0.0);
+    count += assertMul(-0.0, -0.0);
+    count += assertMul(NAN, 45.0);
+    count += assertMul(NAN, -45.0);
+    count += assertMul(-NAN, 45.0);
+    count += assertMul(-NAN, -45.0);
+    count += assertMul(INFINITY, 0.1);
+    count += assertMul(INFINITY, -0.1);
+    count += assertMul(-INFINITY, 0.1);
+    count += assertMul(-INFINITY, -0.1);
+    count += assertMul(INFINITY, INFINITY);
+    count += assertMul(INFINITY, -INFINITY);
+    // Random tests
+    for (size_t i = 0; i < 100; i++) {
+        float f1 = (float)rand()/RAND_MAX;
+        float f2 = (float)rand()/RAND_MAX;
+        count += assertMul(f1, f2);
+    }
+    printf("%u tests failed\n", count);
+}
+
+int main(int argc, char const *argv[]) {
+    //testAdd();
+    testMul();
     return 0;
 }
