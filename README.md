@@ -1,6 +1,6 @@
 # Chisel3-Float-Type
 
-The repository contains the source code implementing in Chisel3 a floating point representation compliant with a ieee754. The objective being that this representation will be used for designing hardware accelerators or co-processors running alongside traditional CPUs (e.g. Xilinx Zynq & UltraScale, Intel Stratix), only the implementation of 32 bit float (```float```), 64 bit float (```double```) and 128 bit float (```long double```) are considered for the time being.
+The repository contains the source code implementing in Chisel3 a floating point representation compliant with ieee754. The objective being to use it in the designing of hardware accelerators or co-processors running alongside traditional CPUs (e.g. Xilinx Zynq & UltraScale, Intel Stratix), only the implementation of 32 bit float (```float```), 64 bit float (```double```) and 128 bit float (```long double```) are considered for the time being.
 
 ## Utilisation
 
@@ -26,7 +26,7 @@ result := myFloat1*myFloat2
 
 ### Example
 
-Here under, one can find an example demonstrating the use of the current state of the project. Briefly, the example is an implementation of a simple *Float Processing Unit* (```FPU```) where the input ```io.operand``` specifies whether ```io.result``` will output the outcome of the multiplication or the addition of ```io.operand1``` and ```io.operand2```.
+Hereunder, one can find an example demonstrating the use of the current state of the project. Briefly, the example is an implementation of a simple *Float Processing Unit* (```FPU```) where the input ```io.operand``` specifies whether ```io.result``` will output the outcome of the multiplication or the addition of ```io.operand1``` and ```io.operand2```.
 ```scala
 import float._
 
@@ -53,11 +53,11 @@ class FPU extends Module {
 }
 ```
 
-### Precision issues!
+### Precision issue!
 
-One must note that some precision issues have been observed when comparing the output (addition and multiplication) of the ```Chisel``` implementations with the output of the ```C``` version.
+One must note that some precision issues have been observed when comparing the output (addition and multiplication) of the ```Chisel``` implementation with the output of the ```C``` version.
 
-More accurately, the rounding error occurs whenever an overflow occurs in the mantissa. According to the **iee754** logic, when it happens, the exponent is incremented and the mantissa must be shift one step on the right. Doing so implies that a rounding error can occur in the case where the *Least Significant Bit* (LSB) is set to 1. For instance, take the following case:
+More accurately, the rounding error occurs whenever the mantissa overflows. According to the **iee754** logic, when it happens, the exponent is incremented and the mantissa must be shifted one step on the right. Doing so implies that a rounding error can occur in the case where the *Least Significant Bit* (LSB) is set to 1. For instance, take the following case:
 ```
 0.103171*0.126075 = 0.013007
 0x3dd34b6a * 0x3e0119e5 =  0x3c551cc0
