@@ -22,21 +22,21 @@ class FPUUnitTester(c: FPU) extends PeekPokeTester(c) {
     val outputMul = Array("h4396d200".U, "h4396d200".U, "hc396d200".U, "hc396d200".U, "hc396d200".U, "hc396d200".U, "h4396d200".U, "h4396d200".U, "hc11dc0ed".U, "hc11dc0ed".U, "h00000000".U, "h00000000".U, "h7fc00000".U, "h7fc00000".U, "hffc00000".U, "hffc00000".U, "h7f800000".U, "hff800000".U, "hff800000".U, "h7f800000".U, "h7f800000".U, "hff800000".U, "h3ea9a774".U, "h3f2010e5".U, "h3e386b66".U, "h3e83dab7".U, "h3e1d926b".U, "h3e99b695".U, "h3e3fc682".U, "h3f5f5775".U, "h3ee9780f".U, "h3db005b0".U, "h3b81bc1f".U, "h3de2039b".U, "h3d80a790".U, "h3c676165".U, "h3e5f4134".U, "h3edc5e6b".U, "h3e39b6a3".U, "h3eab2430".U, "h3ef5d598".U, "h3e670ce2".U, "h3ecfa405".U, "h3eb6b089".U, "h3dcc81a4".U, "h3f3e08b3".U, "h3d879ea7".U, "h3d3967c5".U, "h3e028a7c".U, "h3e9f066c".U, "h3aa86a46".U, "h3cec93cf".U, "h3e6cd55c".U, "h3f44886d".U, "h3e1363db".U, "h3e920c5f".U, "h3eaf390b".U, "h3cab1010".U, "h3ed0cbf5".U, "h3f2bcb36".U, "h3e56ffdf".U, "h3e68058b".U, "h3de9d081".U, "h3ec64f79".U, "h3e8c3eb5".U, "h3e517691".U, "h3e765b13".U, "h3f1021ca".U, "h3f107d44".U, "h3ecff198".U, "h3ea6364c".U, "h3f1f90d9".U, "h3dd543f6".U, "h3f5fd5aa".U, "h3e053852".U, "h3e8dc810".U, "h3e3252a7".U, "h3e777662".U, "h3dcf0198".U, "h3d542f8a".U, "h3e6d525f".U, "h3e1d7dd8".U, "h3c551cc0".U, "h3ec0e862".U, "h3f6bb60f".U, "h3e86486e".U, "h3e8d8608".U, "h3d8bec7a".U, "h3e1248f5".U, "h3de47fd7".U, "h3dcbe670".U, "h3dfa6777".U, "h3d910564".U, "h3ce07061".U, "h3d2d4463".U, "h3f15a276".U, "h3f229a0c".U, "h3ef8bd3e".U, "h3c4e9d49".U, "h3d26b20d".U, "h3c6a66a6".U, "h3ec1a583".U, "h3eddcae4".U, "h3c0649d7".U, "h3e513b2d".U, "h3de4aeb9".U, "h3d5ceeb7".U, "h3d80f3d9".U, "h3b7bc0e1".U, "h3ddb629c".U, "h3d82dc70".U, "h3f3f9760".U, "h3e4b2803".U, "h3e8643cc".U, "h3d8c452e".U, "h3ecdd002".U, "h3e9a969c".U, "h3f01a0aa".U, "h3ef0cbc7".U, "h3cd8fd0f".U, "h3f456426".U, "h3f39c8de".U
     )
 
-//    poke(c.io.operand, 1) // ask for addition
-//    for (i <- 0 to 121) {
-//        poke(c.io.operand1, input1(i))
-//        poke(c.io.operand2, input2(i))
-//        step(1)
-//        expect(c.io.result, outputAdd(i))
-//    }
-
-    poke(c.io.operand, 0) // ask for multiplication
+    poke(c.io.operand, 1) // ask for addition
     for (i <- 0 to 121) {
         poke(c.io.operand1, input1(i))
         poke(c.io.operand2, input2(i))
         step(1)
-        expect(c.io.result, outputMul(i)) // TODO change the array
+        expect(c.io.result, outputAdd(i))
     }
+
+//    poke(c.io.operand, 0) // ask for multiplication
+//    for (i <- 0 to 121) {
+//        poke(c.io.operand1, input1(i))
+//        poke(c.io.operand2, input2(i))
+//        step(1)
+//        expect(c.io.result, outputMul(i)) // TODO change the array
+//    }
 
 }
 

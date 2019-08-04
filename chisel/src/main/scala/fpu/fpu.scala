@@ -12,15 +12,15 @@ class FPU extends Module {
         val result   = Output(UInt(32.W))
     })
 
-    val op1 = Float.init(io.operand1)
-    val op2 = Float.init(io.operand2)
+    val op1 = (io.operand1).asTypeOf(new Float)
+    val op2 = (io.operand2).asTypeOf(new Float)
 
     val res = Wire(new Float)
     when(io.operand.asBool) {
-        res := Float.add(op1, op2)
+        res := op1+op2
     }
     .otherwise{
-        res := Float.mul(op1, op2)
+        res := op1*op2
     }
     io.result := res.asUInt
 

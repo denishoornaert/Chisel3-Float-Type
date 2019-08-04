@@ -7,31 +7,31 @@ object Float {
 
     val nan :: an :: ninfinity :: infinity :: Nil = Enum(4)
 
-    def init(input: UInt): Float = {
-        val res = Wire(new Float())
-        res.sign := input(31)
-        res.exponent := input(30, 23)
-        res.mantissa := input(22, 0)
-        return res
-    }
+}
+
+class Float() extends Bundle {
+
+    val sign = Bool()
+    val exponent = UInt(8.W)
+    val mantissa = UInt(23.W)
 
     def identify(f: Float): UInt = {
         val res = Wire(UInt(2.W))
         when(f.exponent === "hff".U) {
             when(f.mantissa === 0.U) {
                 when(f.sign === 0.U) {
-                    res := infinity
+                    res := Float.infinity
                 }
                 .otherwise{
-                    res := ninfinity
+                    res := Float.ninfinity
                 }
             }
             .otherwise{
-                res := nan
+                res := Float.nan
             }
         }
         .otherwise {
-            res := an
+            res := Float.an
         }
         return res
     }
@@ -58,21 +58,21 @@ object Float {
         return res
     }
 
-    def add(a: Float, b: Float): Float = {
+    def +(that: Float): Float = {
         // SETUP
         val res = Wire(new Float())
         val Aidentity = Wire(UInt(2.W))
         val Bidentity = Wire(UInt(2.W))
-        Aidentity := identify(a)
-        Bidentity := identify(b)
-        when((Aidentity === infinity & Bidentity === ninfinity)|(Bidentity === infinity & Aidentity === ninfinity)) {
+        Aidentity := identify(this)
+        Bidentity := identify(that)
+        when((Aidentity === Float.infinity & Bidentity === Float.ninfinity)|(Bidentity === Float.infinity & Aidentity === Float.ninfinity)) {
             res := ("hffc00000".U).asTypeOf(new Float)
         }
-        .elsewhen(Aidentity === infinity | Aidentity === ninfinity) {
-            res := a
+        .elsewhen(Aidentity === Float.infinity | Aidentity === Float.ninfinity) {
+            res := this
         }
-        .elsewhen(Bidentity === infinity | Bidentity === ninfinity) {
-            res := b
+        .elsewhen(Bidentity === Float.infinity | Bidentity === Float.ninfinity) {
+            res := that
         }
         .otherwise {
             // INIT
@@ -82,19 +82,19 @@ object Float {
             val b_mantissa = Wire(UInt(26.W))
             val mantissa   = Wire(UInt(26.W))
             val sum        = Wire(SInt(26.W))
-            difference := absoluteValue((a.exponent).asSInt-(b.exponent).asSInt)
+            difference := absoluteValue((this.exponent).asSInt-(that.exponent).asSInt)
             // SHIFT EXPONENT
-            when(a.exponent > b.exponent) {
-                exponent := a.exponent
-                a_mantissa := Cat(1.U(1.W), a.mantissa)
-                b_mantissa := Cat(1.U(1.W), b.mantissa) >> difference
+            when(this.exponent > that.exponent) {
+                exponent := this.exponent
+                a_mantissa := Cat(1.U(1.W), this.mantissa)
+                b_mantissa := Cat(1.U(1.W), that.mantissa) >> difference
             }
             .otherwise{
-                exponent := b.exponent;
-                a_mantissa := Cat(1.U(1.W), a.mantissa) >> difference
-                b_mantissa := Cat(1.U(1.W), b.mantissa)
+                exponent := that.exponent;
+                a_mantissa := Cat(1.U(1.W), this.mantissa) >> difference
+                b_mantissa := Cat(1.U(1.W), that.mantissa)
             }
-            sum := toInt(a_mantissa, a.sign)+toInt(b_mantissa, b.sign)
+            sum := toInt(a_mantissa, this.sign)+toInt(b_mantissa, that.sign)
             mantissa := absoluteValue(sum)
             // MANTISSA COMPUTATION
             res.mantissa := Mux(mantissa(24), ((mantissa)+1.U)>>1.U, mantissa)(22, 0)
@@ -106,41 +106,33 @@ object Float {
         return res
     }
 
-    def mul(a: Float, b: Float): Float = {
+    def *(that: Float): Float = {
         // SETUP
         val res = Wire(new Float())
         val Aidentity = Wire(UInt(2.W))
         val Bidentity = Wire(UInt(2.W))
-        Aidentity := identify(a)
-        Bidentity := identify(b)
-        when(Aidentity === infinity | Aidentity === ninfinity | Bidentity === infinity | Bidentity === ninfinity) {
-            res := (Cat((a.sign^b.sign), "h7f800000".U(31.W))).asTypeOf(new Float)
+        Aidentity := identify(this)
+        Bidentity := identify(that)
+        when(Aidentity === Float.infinity | Aidentity === Float.ninfinity | Bidentity === Float.infinity | Bidentity === Float.ninfinity) {
+            res := (Cat((this.sign^that.sign), "h7f800000".U(31.W))).asTypeOf(new Float)
         }
-        .elsewhen(Aidentity === nan) {
-            res := (Cat(a.sign, "h7fc00000".U(31.W))).asTypeOf(new Float)
+        .elsewhen(Aidentity === Float.nan) {
+            res := (Cat(this.sign, "h7fc00000".U(31.W))).asTypeOf(new Float)
         }
-        .elsewhen(Bidentity === nan) {
-            res := (Cat(b.sign, "h7fc00000".U(31.W))).asTypeOf(new Float)
+        .elsewhen(Bidentity === Float.nan) {
+            res := (Cat(that.sign, "h7fc00000".U(31.W))).asTypeOf(new Float)
         }
-        .elsewhen(a.asUInt === 0.U | b.asUInt === 0.U | a.asUInt === "h80000000".U | b.asUInt === "h80000000".U) {
+        .elsewhen(this.asUInt === 0.U | that.asUInt === 0.U | this.asUInt === "h80000000".U | that.asUInt === "h80000000".U) {
             res := (0.U).asTypeOf(new Float)
         }
         .otherwise {
-            res.sign := (a.sign^b.sign)
-            val mantissa = (Cat(1.U(1.W), a.mantissa)*Cat(1.U(1.W), b.mantissa)) >> 23.U
+            res.sign := (this.sign^that.sign)
+            val mantissa = (Cat(1.U(1.W), this.mantissa)*Cat(1.U(1.W), that.mantissa)) >> 23.U
             res.mantissa := Mux(mantissa(24).asBool, (mantissa+1.U)>>1.U, mantissa)(22, 0)
-            val exponent = a.exponent+b.exponent
+            val exponent = this.exponent+that.exponent
             res.exponent := exponent-127.U+mantissa(24)
         }
         return res
     }
-
-}
-
-class Float() extends Bundle {
-
-    val sign = Bool()
-    val exponent = UInt(8.W)
-    val mantissa = UInt(23.W)
 
 }
