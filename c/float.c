@@ -212,7 +212,6 @@ unsigned char assertMul(float a, float b) {
     }
     else {
         printf("Error : %f*%f should be %f(%08x) but %f(%08x) found.\n", a, b, r, *(unsigned*)&r, t, *(unsigned*)&t);
-        //printf("Error : %f(%08x)*%f(%08x) should be %f(%08x) but %f(%08x) found.\n", a, *(unsigned*)&a, b, *(unsigned*)&b, r, *(unsigned*)&r, t, *(unsigned*)&t);
         assertionResult = 1;
     }
     return assertionResult;
