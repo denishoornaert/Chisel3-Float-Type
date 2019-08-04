@@ -5,7 +5,7 @@ import chisel3.util._
 
 object Float {
 
-    val aN :: ninfinity :: infinity :: Nil = Enum(3)
+    val nan :: an :: ninfinity :: infinity :: Nil = Enum(4)
 
     def init(input: UInt): Float = {
         val res = Wire(new Float())
@@ -27,11 +27,11 @@ object Float {
                 }
             }
             .otherwise{
-                res := aN
+                res := nan
             }
         }
         .otherwise {
-            res := aN
+            res := an
         }
         return res
     }
@@ -102,6 +102,35 @@ object Float {
             res.sign := (sum < 0.S)
             // EXPONENT MANAGMENT
             res.exponent := Mux(sum =/= 0.S, exponent, 0.U)+Cat(0.U(7.W), mantissa(24))
+        }
+        return res
+    }
+
+    def mul(a: Float, b: Float): Float = {
+        // SETUP
+        val res = Wire(new Float())
+        val Aidentity = Wire(UInt(2.W))
+        val Bidentity = Wire(UInt(2.W))
+        Aidentity := identify(a)
+        Bidentity := identify(b)
+        when(Aidentity === infinity | Aidentity === ninfinity | Bidentity === infinity | Bidentity === ninfinity) {
+            res := (Cat((a.sign^b.sign), "h7f800000".U(31.W))).asTypeOf(new Float)
+        }
+        .elsewhen(Aidentity === nan) {
+            res := (Cat(a.sign, "h7fc00000".U(31.W))).asTypeOf(new Float)
+        }
+        .elsewhen(Bidentity === nan) {
+            res := (Cat(b.sign, "h7fc00000".U(31.W))).asTypeOf(new Float)
+        }
+        .elsewhen(a.asUInt === 0.U | b.asUInt === 0.U | a.asUInt === "h80000000".U | b.asUInt === "h80000000".U) {
+            res := (0.U).asTypeOf(new Float)
+        }
+        .otherwise {
+            res.sign := (a.sign^b.sign)
+            val mantissa = (Cat(1.U(1.W), a.mantissa)*Cat(1.U(1.W), b.mantissa)) >> 23.U
+            res.mantissa := Mux(mantissa(24).asBool, (mantissa+1.U)>>1.U, mantissa)(22, 0)
+            val exponent = a.exponent+b.exponent
+            res.exponent := exponent-127.U+mantissa(24)
         }
         return res
     }
