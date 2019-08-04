@@ -8,7 +8,7 @@ One can import the library easily as follows.
 ```scala
 import float._
 ```
-One as the choice of either instanciating a ```Wire``` or a ```Reg``` similarly to what is possible with built-in Chisel3 data-types.
+One as the choice of either instantiating a ```Wire``` or a ```Reg``` similarly to what is possible with built-in Chisel3 data-types.
 
 ```scala
 val temp = Wire(new Float)
@@ -66,12 +66,12 @@ The answer is ```0x3c551cc0```. However, ```0x3c551cbf``` is found. Luckily, in 
 
 The current precision issue will only be fix provided that the rounding logic can be understand and emulated. Fortunately, this issue has minor consequences as it only impacts the value of the LSB, meaning that rounding errors are small.
 
-### Comming updates
+### Coming updates
 
 - [ ] Upload this library on a ```sbt``` server so that dependencies can be solved easily
 - [ ] Implementing a ```asFloat``` casting method
 - [ ] Implementation of the division operator
-- [ ] Implmentation of ```double```
-- [ ] Implmentation of ```long double```
+- [ ] Implementation of ```double```
+- [ ] Implementation of ```long double```
 - [ ] Addition logic optimisation
 - [ ] Fix the rounding/precision issue
