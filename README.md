@@ -26,13 +26,13 @@ result := myFloat1*myFloat2
 
 ### Example
 
-Hereunder, one can find an example demonstrating the use of the current state of the project. Briefly, the example is an implementation of a simple *Float Processing Unit* (```FPU```) where the input ```io.operand``` specifies whether ```io.result``` will output the outcome of the multiplication or the addition of ```io.operand1``` and ```io.operand2```.
+Hereunder, one can find an example demonstrating the use of the current state of the project. Briefly, the example is an implementation of a simple *Float Processing Unit* (```FPU```) where the input ```io.operator``` specifies whether ```io.result``` will output the outcome of the multiplication or the addition of ```io.operand1``` and ```io.operand2```.
 ```scala
 import float._
 
 class FPU extends Module {
     val io = IO(new Bundle {
-        val operand  = Input(UInt(1.W)) // 0: mul & 1: add
+        val operator  = Input(UInt(1.W)) // 0: mul & 1: add
         val operand1 = Input(UInt(32.W))
         val operand2 = Input(UInt(32.W))
         val result   = Output(UInt(32.W))
