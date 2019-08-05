@@ -42,7 +42,7 @@ class FPU extends Module {
     val op2 = (io.operand2).asTypeOf(new Float)
 
     val res = Wire(new Float)
-    when(io.operand.asBool) {
+    when(io.operator.asBool) {
         res := op1+op2
     }
     .otherwise{
