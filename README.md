@@ -14,6 +14,13 @@ One as the choice of either instantiating a ```Wire``` or a ```Reg``` similarly 
 val temp = Wire(new Float)
 val result = Reg(new Float)
 ```
+The initialisation of a float type is as follows.
+```scala
+val myFloat = Wire(new Float)
+myFloat.sign := input(31)         // or directly a UInt(e.g. 1.U)
+myFloat.exponent := input(30, 23) // or directly a UInt(e.g. 156.U)
+myFloat.mantissa := input(22, 0)  // or directly a UInt(e.g. 2831.U)
+```
 Alternatively, one can 'cast' a 32 bit unsigned integer.
 ```scala
 val myFloat = (input).asTypeOf(new Float)
@@ -65,6 +72,25 @@ More accurately, the rounding error occurs whenever the mantissa overflows. Acco
 The answer is ```0x3c551cc0```. However, ```0x3c551cbf``` is found. Luckily, in ```C``` it will still be printed ```0.013007```.
 
 The current precision issue will only be fix provided that the rounding logic can be understand and emulated. Fortunately, this issue has minor consequences as it only impacts the value of the LSB, meaning that rounding errors are small.
+
+### Launching tests
+
+#### C
+The ```C``` implementations are separated in two different files so one must each time compile both of them and then run them.
+```bash
+cd c/
+gcc float.c -o testFloat.out
+./testFloat.out
+gcc double.c -o testDouble.out
+./testDouble.out
+```
+
+#### Chisel
+All the types and operations are included in the same testing process. Consequently, running the following line is sufficient.
+```bash
+cd chisel/
+sbt "test:runMain fpu.FPUMain"
+```
 
 ### Coming updates
 
