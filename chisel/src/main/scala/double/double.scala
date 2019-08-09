@@ -114,7 +114,7 @@ class Double() extends Bundle {
         Aidentity := identify(this)
         Bidentity := identify(that)
         when(Aidentity === Double.infinity | Aidentity === Double.ninfinity | Bidentity === Double.infinity | Bidentity === Double.ninfinity) {
-            res := (Cat((this.sign^that.sign), "h7ff8000000000000".U(63.W))).asTypeOf(new Double)
+            res := (Cat((this.sign^that.sign), "h7ff0000000000000".U(63.W))).asTypeOf(new Double)
         }
         .elsewhen(Aidentity === Double.nan) {
             res := (Cat(this.sign, "h7ff8000000000000".U(63.W))).asTypeOf(new Double)
@@ -123,14 +123,14 @@ class Double() extends Bundle {
             res := (Cat(that.sign, "h7ff8000000000000".U(63.W))).asTypeOf(new Double)
         }
         .elsewhen(this.asUInt === 0.U | that.asUInt === 0.U | this.asUInt === "h8000000000000000".U | that.asUInt === "h8000000000000000".U) {
-            res := (0.U).asTypeOf(new Double)
+            res := ("h0000000000000000".U).asTypeOf(new Double)
         }
         .otherwise {
             res.sign := (this.sign^that.sign)
             val mantissa = (Cat(1.U(1.W), this.mantissa)*Cat(1.U(1.W), that.mantissa)) >> 52.U
             res.mantissa := Mux(mantissa(53).asBool, (mantissa+1.U)>>1.U, mantissa)(51, 0)
             val exponent = this.exponent+that.exponent
-            res.exponent := exponent-127.U+mantissa(53)
+            res.exponent := exponent-1023.U+mantissa(53)
         }
         return res
     }

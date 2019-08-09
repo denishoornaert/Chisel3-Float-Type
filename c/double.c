@@ -115,11 +115,11 @@ unsigned char assertAdd(double a, double b) {
     double r = a+b;
     double t = add(*(long unsigned*)&a, *(long unsigned*)&b);
     if((r == t)||((*(long unsigned*)&r) == (*(long unsigned*)&t))) {
-        //printf("Passed: %f(%08lx)+%f(%x) should be %f(%08lx) but %f(%08lx) found.\n", a, *(long unsigned*)&a, b, *(long unsigned*)&b, r, *(long unsigned*)&r, t, *(long unsigned*)&t);
+        printf("Passed: %f(%016lx)*%f(%016lx) should be %f(%016lx) but %f(%016lx) found.\n", a, *(long unsigned*)&a, b, *(long unsigned*)&b, r, *(long unsigned*)&r, t, *(long unsigned*)&t);
         assertionResult = 0;
     }
     else {
-        printf("Error : %f(%08lx)+%f(%08lx) should be %f(%08lx) but %f(%08lx) found.\n", a, *(long unsigned*)&a, b, *(long unsigned*)&b, r, *(long unsigned*)&r, t, *(long unsigned*)&t);
+        printf("Error : %f(%016lx)+%f(%016lx) should be %f(%016lx) but %f(%016lx) found.\n", a, *(long unsigned*)&a, b, *(long unsigned*)&b, r, *(long unsigned*)&r, t, *(long unsigned*)&t);
         assertionResult = 1;
     }
     return assertionResult;
@@ -209,9 +209,10 @@ unsigned char assertMul(double a, double b) {
     double t = mul(*(long unsigned*)&a, *(long unsigned*)&b);
     if((r == t)||((*(long unsigned*)&r) == (*(long unsigned*)&t))) {
         assertionResult = 0;
+        printf("Passed: %f(%016lx)*%f(%016lx) should be %f(%016lx) but %f(%016lx) found.\n", a, *(long unsigned*)&a, b, *(long unsigned*)&b, r, *(long unsigned*)&r, t, *(long unsigned*)&t);
     }
     else {
-        printf("Error : %f*%f should be %f(%08lx) but %f(%08lx) found.\n", a, b, r, *(long unsigned*)&r, t, *(long unsigned*)&t);
+        printf("Error : %f(%016lx)*%f(%016lx) should be %f(%016lx) but %f(%016lx) found.\n", a, *(long unsigned*)&a, b, *(long unsigned*)&b, r, *(long unsigned*)&r, t, *(long unsigned*)&t);
         assertionResult = 1;
     }
     return assertionResult;
@@ -252,7 +253,7 @@ void testMul() {
 }
 
 int main(int argc, char const *argv[]) {
-    //testAdd();
-    testMul();
+    testAdd();
+    //testMul();
     return 0;
 }
