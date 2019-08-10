@@ -9,55 +9,9 @@ object FloatingPoint {
 
     val nan :: an :: ninfinity :: infinity :: Nil = Enum(4)
 
-    def add(a: FloatingPoint, b: FloatingPoint, res: FloatingPoint) {
-        // SETUP
-        val Aidentity = Wire(UInt(2.W))
-        val Bidentity = Wire(UInt(2.W))
-        Aidentity := identify(a)
-        Bidentity := identify(b)
-        when((Aidentity === FloatingPoint.infinity & Bidentity === FloatingPoint.ninfinity)|(Bidentity === FloatingPoint.infinity & Aidentity === FloatingPoint.ninfinity)) {
-            res := (("b"+("1"*(1+exp+1))+("0"*(man-1))).U).asTypeOf(new FloatingPoint(a.exp, a.man))
-        }
-        .elsewhen(Aidentity === FloatingPoint.infinity | Aidentity === FloatingPoint.ninfinity) {
-            res := a
-        }
-        .elsewhen(Bidentity === FloatingPoint.infinity | Bidentity === FloatingPoint.ninfinity) {
-            res := b
-        }
-        .otherwise {
-            // INIT
-            val exponent   = Wire(UInt(a.exp.W))
-            val difference = Wire(UInt(a.exp.W))
-            val a_mantissa = Wire(UInt((a.man+3).W))
-            val b_mantissa = Wire(UInt((a.man+3).W))
-            val mantissa   = Wire(UInt((a.man+3).W))
-            val sum        = Wire(SInt((a.man+3).W))
-            difference := absoluteValue((a.exponent).asSInt-(b.exponent).asSInt)
-            // SHIFT EXPONENT
-            when(a.exponent > b.exponent) {
-                exponent := a.exponent
-                a_mantissa := Cat(1.U(1.W), a.mantissa)
-                b_mantissa := Cat(1.U(1.W), b.mantissa) >> difference
-            }
-            .otherwise{
-                exponent := b.exponent;
-                a_mantissa := Cat(1.U(1.W), a.mantissa) >> difference
-                b_mantissa := Cat(1.U(1.W), b.mantissa)
-            }
-            sum := toInt(a_mantissa, a.sign)+toInt(b_mantissa, b.sign)
-            mantissa := absoluteValue(sum)
-            // MANTISSA COMPUTATION
-            res.mantissa := Mux(mantissa(man+1), ((mantissa)+1.U)>>1.U, mantissa)(man-1, 0)
-            // SIGN MANAGMENT
-            res.sign := (sum < 0.S)
-            // EXPONENT MANAGMENT
-            res.exponent := Mux(sum =/= 0.S, exponent, 0.U)+Cat(0.U((exp-1).W), mantissa(man+1))
-        }
-    }
-
 }
 
-class FloatingPoint() extends Bundle {
+class FloatingPoint(exp: Int, man: Int) extends Bundle {
 
     val sign = Bool()
     val exponent = UInt(exp.W)
@@ -106,9 +60,53 @@ class FloatingPoint() extends Bundle {
         return res
     }
 
+    override def cloneType = (new FloatingPoint(this.exp, this.man)).asInstanceOf[this.type]
+
     def +(that: FloatingPoint): FloatingPoint = {
         val res = Wire(new FloatingPoint(this.exp, this.man))
-        add(this, that, res)
+        // SETUP
+        val Aidentity = Wire(UInt(2.W))
+        val Bidentity = Wire(UInt(2.W))
+        Aidentity := identify(this)
+        Bidentity := identify(that)
+        when((Aidentity === FloatingPoint.infinity & Bidentity === FloatingPoint.ninfinity)|(Bidentity === FloatingPoint.infinity & Aidentity === FloatingPoint.ninfinity)) {
+            res := (("b"+("1"*(1+exp+1))+("0"*(man-1))).U).asTypeOf(new FloatingPoint(this.exp, this.man))
+        }
+        .elsewhen(Aidentity === FloatingPoint.infinity | Aidentity === FloatingPoint.ninfinity) {
+            res := this
+        }
+        .elsewhen(Bidentity === FloatingPoint.infinity | Bidentity === FloatingPoint.ninfinity) {
+            res := that
+        }
+        .otherwise {
+            // INIT
+            val exponent   = Wire(UInt(this.exp.W))
+            val difference = Wire(UInt(this.exp.W))
+            val a_mantissa = Wire(UInt((this.man+3).W))
+            val b_mantissa = Wire(UInt((this.man+3).W))
+            val mantissa   = Wire(UInt((this.man+3).W))
+            val sum        = Wire(SInt((this.man+3).W))
+            difference := absoluteValue((this.exponent).asSInt-(that.exponent).asSInt)
+            // SHIFT EXPONENT
+            when(this.exponent > that.exponent) {
+                exponent := this.exponent
+                a_mantissa := Cat(1.U(1.W), this.mantissa)
+                b_mantissa := Cat(1.U(1.W), that.mantissa) >> difference
+            }
+            .otherwise{
+                exponent := that.exponent;
+                a_mantissa := Cat(1.U(1.W), this.mantissa) >> difference
+                b_mantissa := Cat(1.U(1.W), that.mantissa)
+            }
+            sum := toInt(a_mantissa, this.sign)+toInt(b_mantissa, that.sign)
+            mantissa := absoluteValue(sum)
+            // MANTISSA COMPUTATION
+            res.mantissa := Mux(mantissa(man+1), ((mantissa)+1.U)>>1.U, mantissa)(man-1, 0)
+            // SIGN MANAGMENT
+            res.sign := (sum < 0.S)
+            // EXPONENT MANAGMENT
+            res.exponent := Mux(sum =/= 0.S, exponent, 0.U)+Cat(0.U((exp-1).W), mantissa(man+1))
+        }
         return res
     }
 
@@ -120,13 +118,13 @@ class FloatingPoint() extends Bundle {
         Aidentity := identify(this)
         Bidentity := identify(that)
         when(Aidentity === FloatingPoint.infinity | Aidentity === FloatingPoint.ninfinity | Bidentity === FloatingPoint.infinity | Bidentity === FloatingPoint.ninfinity) {
-            res := (Cat((this.sign^that.sign), ("b0"+("1"*(exp))+("0"*(man))).U((1+exp+man).W))).asTypeOf(new FloatingPoint(this.exp, this.man))
+            res := (Cat((this.sign^that.sign), ("b0"+("1"*(exp))+("0"*(man))).U((exp+man).W))).asTypeOf(new FloatingPoint(this.exp, this.man))
         }
         .elsewhen(Aidentity === FloatingPoint.nan) {
-            res := (Cat(this.sign, ("b0"+("1"*(exp+1))+("0"*(man-1))).U((1+exp+man).W))).asTypeOf(new FloatingPoint(this.exp, this.man))
+            res := (Cat(this.sign, ("b"+("1"*(exp+1))+("0"*(man-1))).U((exp+man).W))).asTypeOf(new FloatingPoint(this.exp, this.man))
         }
         .elsewhen(Bidentity === FloatingPoint.nan) {
-            res := (Cat(that.sign, ("b0"+("1"*(exp+1))+("0"*(man-1))).U((1+exp+man).W))).asTypeOf(new FloatingPoint(this.exp, this.man))
+            res := (Cat(that.sign, ("b"+("1"*(exp+1))+("0"*(man-1))).U((exp+man).W))).asTypeOf(new FloatingPoint(this.exp, this.man))
         }
         .elsewhen(this.asUInt === 0.U | that.asUInt === 0.U | this.asUInt === ("b1"+("0"*(exp+man))).U | that.asUInt === ("b1"+("0"*(exp+man))).U) {
             res := (0.U).asTypeOf(new FloatingPoint(this.exp, this.man))

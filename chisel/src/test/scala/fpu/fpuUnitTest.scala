@@ -35,7 +35,7 @@ class FPUUnitTester(c: FPU) extends PeekPokeTester(c) {
     "h4072da4000000000".U, "h4072da4000000000".U, "hc072da4000000000".U, "hc072da4000000000".U, "hc072da4000000000".U, "hc072da4000000000".U, "h4072da4000000000".U, "h4072da4000000000".U, "hc023b81d7dbf4880".U, "hc023b81d7dbf4880".U, "h0000000000000000".U, "h0000000000000000".U, "h7ff8000000000000".U, "h7ff8000000000000".U, "hfff8000000000000".U, "hfff8000000000000".U, "h7ff0000000000000".U, "hfff0000000000000".U, "hfff0000000000000".U, "h7ff0000000000000".U, "h7ff0000000000000".U, "hfff0000000000000".U, "h3fd534ee8003857d".U, "h3fe4021c957288f2".U, "h3fc70d6cad6b18d4".U, "h3fd07b56e553e17f".U, "h3fc3b24d4dd4e6d4".U, "h3fd336d2aae12fc5".U, "h3fc7f8d036a6eb49".U, "h3febeaee7f79e8b6".U, "h3fdd2f01c0f5a9dc".U, "h3fb600b5ee31864e".U, "h3f703783d51636ee".U, "h3fbc407373ce3943".U, "h3fb014f20a6c39be".U, "h3f8cec2ccb9bcbcc".U, "h3fcbe8268d6f457f".U, "h3fdb8bcd5b782515".U, "h3fc736d45402fda1".U, "h3fd5648618f4323d".U, "h3fdebab2f0ef8970".U, "h3fcce19c2e85b2fa".U, "h3fd9f480a3306a1b".U, "h3fd6d6111d9be55b".U, "h3fb9903489b92d72".U, "h3fe7c11654326600".U, "h3fb0f3d4d8adf0e7".U, "h3fa72cf88db422d6".U, "h3fc0514f7a80fb5b".U, "h3fd3e0cd7b6ccc97".U, "h3f550d48c4395a3f".U, "h3f9d9279e78216be".U, "h3fcd9aab8ab9123a".U, "h3fe8910da4fd633e".U, "h3fc26c7b4a38ab6d".U, "h3fd2418bdb643f76".U, "h3fd5e72137ce0737".U, "h3f9562020acb8f4e".U, "h3fda197e90bbb37f".U, "h3fe57966c00b3e7b".U, "h3fcadffbc5ff02c1".U, "h3fcd00b1762b7602".U, "h3fbd3a101f962b4d".U, "h3fd8c9ef332dbc44".U, "h3fd187d697dd27ad".U, "h3fca2ed20b58be37".U, "h3fcecb6257a62009".U, "h3fe204394a874c54".U, "h3fe20fa8888e090c".U, "h3fd9fe32fcc64f0b".U, "h3fd4c6c98449b700".U, "h3fe3f21b1a704d06".U, "h3fbaa87ea95784d7".U, "h3febfab55c524cce".U, "h3fc0a70a36596ca2".U, "h3fd1b901e4523e20".U, "h3fc64a54ead3cb60".U, "h3fceeecc43b23a21".U, "h3fb9e032ebfa32a2".U, "h3faa85f12c83d72c".U, "h3fcdaa4be73cfbf4".U, "h3fc3afbb09ff2c6d".U, "h3f8aa397f7739fad".U, "h3fd81d0c3f852ce7".U, "h3fed76c1da08401a".U, "h3fd0c90dbf18fc9b".U, "h3fd1b0c0f1b1787b".U, "h3fb17d8f457f8361".U, "h3fc2491e9ec7759b".U, "h3fbc8ffadf1fd6f2".U, "h3fb97cce0cb2c170".U, "h3fbf4ceede7ff9a4".U, "h3fb220ac8433fb9e".U, "h3f9c0e0c56f69cfe".U, "h3fa5a88c6c4ae01b".U, "h3fe2b44edd9d6133".U, "h3fe4534176d0dd1f".U, "h3fdf17a7ac633f59".U, "h3f89d3a91d48ad64".U, "h3fa4d641ae960680".U, "h3f8d4cd4c02bed64".U, "h3fd834b05f67d7c0".U, "h3fdbb95c8b588262".U, "h3f80c93ae45e20ad".U, "h3fca2765993e57e3".U, "h3fbc95d70fc4be70".U, "h3fab9dd6fb37fb32".U, "h3fb01e7b236f0aaf".U, "h3f6f781c32e00eca".U, "h3fbb6c538789570e".U, "h3fb05b8e03ea4e87".U, "h3fe7f2ebfc0468db".U, "h3fc965005072561d".U, "h3fd0c879961fc917".U, "h3fb188a5cc50e7cc".U, "h3fd9ba005216c00b".U, "h3fd352d37feeb7c1".U, "h3fe0341544cd1951".U, "h3fde1978db25418e".U, "h3f9b1fa1e6716d56".U, "h3fe8ac84c7bfe5c4".U, "h3fe7391bcfa54578".U
     )
 
-    poke(c.io.inputType, 0) // ask for float
+//    poke(c.io.inputType, 0) // ask for float
 //    poke(c.io.operand, 1) // ask for addition
 //    for (i <- 0 to 121) {
 //        poke(c.io.operand1, floatInput1(i))
@@ -53,21 +53,21 @@ class FPUUnitTester(c: FPU) extends PeekPokeTester(c) {
 //    }
 
     poke(c.io.inputType, 1) // ask for double
-//    poke(c.io.operand, 1) // ask for addition
-//    for (i <- 0 to 121) {
-//        poke(c.io.operand1, doubleInput1(i))
-//        poke(c.io.operand2, doubleInput2(i))
-//        step(1)
-//        expect(c.io.result, doubleOutputAdd(i))
-//    }
-
-    poke(c.io.operand, 0) // ask for multiplication
+    poke(c.io.operand, 1) // ask for addition
     for (i <- 0 to 121) {
         poke(c.io.operand1, doubleInput1(i))
         poke(c.io.operand2, doubleInput2(i))
         step(1)
-        expect(c.io.result, doubleOutputMul(i))
+        expect(c.io.result, doubleOutputAdd(i))
     }
+
+//    poke(c.io.operand, 0) // ask for multiplication
+//    for (i <- 0 to 121) {
+//        poke(c.io.operand1, doubleInput1(i))
+//        poke(c.io.operand2, doubleInput2(i))
+//        step(1)
+//        expect(c.io.result, doubleOutputMul(i))
+//    }
 
 }
 

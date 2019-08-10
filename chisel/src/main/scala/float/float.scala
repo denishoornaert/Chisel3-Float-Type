@@ -5,9 +5,8 @@ import chisel3.util._
 
 import floatingpoint._
 
-class Float() extends FloatingPoint() {
+class Float() extends FloatingPoint(8, 23) {
 
-    val exp = 8
-    val man = 23
+    override def cloneType = (new Float()).asInstanceOf[this.type]
 
 }
