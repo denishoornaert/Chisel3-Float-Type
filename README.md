@@ -97,7 +97,7 @@ sbt "test:runMain fpu.FPUMain"
 - [ ] Upload this library on a ```sbt``` server so that dependencies can be solved easily
 - [ ] Implementing a ```asFloat``` casting method
 - [ ] Implementation of the division operator
-- [ ] Implementation of ```double```
+- [x] Implementation of ```double```
 - [ ] Implementation of ```long double```
 - [ ] Addition logic optimisation
 - [ ] Fix the rounding/precision issue
