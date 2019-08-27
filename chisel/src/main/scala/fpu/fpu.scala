@@ -5,11 +5,12 @@ import chisel3.util._
 
 import float._
 import double._
+import double.Double._
 
 class FPU extends Module {
     val io = IO(new Bundle {
         val inputType = Input(UInt(1.W)) // 0: float & double: 1
-        val operand   = Input(UInt(2.W)) // 0: mul, 1: add, 2: toUInt & 3: toSInt
+        val operand   = Input(UInt(3.W)) // 0: mul, 1: add, 2: toUInt, 3: toSInt & 4: toDouble
         val operand1  = Input(UInt(64.W))
         val operand2  = Input(UInt(64.W))
         val result    = Output(UInt(64.W))
@@ -29,8 +30,11 @@ class FPU extends Module {
         .elsewhen(io.operand === 2.U) {
             res := (op1.toUInt).asTypeOf(new Double)
         }
-        .otherwise{
+        .elsewhen(io.operand === 3.U){
             res := (op1.toSInt).asTypeOf(new Double)
+        }
+        .otherwise {
+            res := (op1.asUInt).toDouble
         }
         io.result := res.asUInt
     }
@@ -48,8 +52,11 @@ class FPU extends Module {
         .elsewhen(io.operand === 2.U) {
             res := (op1.toUInt).asTypeOf(new Float)
         }
-        .otherwise{
+        .elsewhen(io.operand === 3.U){
             res := (op1.toSInt).asTypeOf(new Float)
+        }
+        .otherwise {
+            res := (op1.asUInt).asTypeOf(new Float)
         }
         io.result := Cat(0.U(32.W), res.asUInt)
     }

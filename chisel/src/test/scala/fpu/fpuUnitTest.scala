@@ -49,6 +49,13 @@ class FPUUnitTester(c: FPU) extends PeekPokeTester(c) {
     "h0000000000000003".U, "hfffffffffffffffd".U
     )
 
+    val sIntCastToDoubleInput = Array(
+    "h0000000000000002".U, "h0000000000000005".U, "h0000000000000000".U, "h0000000000000000".U, "h0000000000000001".U, "hfffffffffffffffe".U, "hfffffffffffffffb".U, "h0000000000000000".U, "h0000000000000000".U, "hffffffffffffffff".U
+    )
+    val sIntCastToDoubleOutput = Array(
+    "h4000000000000000".U, "h4014000000000000".U, "h3fe0000000000000".U, "h3fe8000000000000".U, "h3ff8000000000000".U, "hc000000000000000".U, "hc014000000000000".U, "hbfe0000000000000".U, "hbfe8000000000000".U, "hbff8000000000000".U
+    )
+
 //    poke(c.io.inputType, 0) // ask for float
 //    poke(c.io.operand, 1) // ask for addition
 //    for (i <- 0 to 121) {
@@ -97,6 +104,14 @@ class FPUUnitTester(c: FPU) extends PeekPokeTester(c) {
         poke(c.io.operand2, 1.U)
         step(1)
         expect(c.io.result, doubleCastToSIntOutput(i))
+    }
+
+    poke(c.io.operand, 4) // ask for converstion to uint
+    for (i <- 0 to 9) {
+        poke(c.io.operand1, sIntCastToDoubleInput(i))
+        poke(c.io.operand2, 1.U)
+        step(1)
+        expect(c.io.result, sIntCastToDoubleOutput(i))
     }
 
 }

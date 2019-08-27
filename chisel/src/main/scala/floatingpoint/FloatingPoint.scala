@@ -1,6 +1,8 @@
 package floatingpoint
 
 import scala.math.pow
+import scala.math.log
+import scala.math.round
 
 import chisel3._
 import chisel3.util._
@@ -8,6 +10,31 @@ import chisel3.util._
 object FloatingPoint {
 
     val nan :: an :: ninfinity :: infinity :: Nil = Enum(4)
+
+    private def log2(x: Int): Int = (round(log(x)/log(2))).toInt
+
+    private def sum(vector: Array[UInt]): UInt = {
+        val temp = Array.tabulate(vector.length)(n => UInt((log2(vector.length+1)).W))
+        temp(0) = vector(0)
+        for (i <- 1 to vector.length-1) {
+            temp(i) = vector(i)+temp(i-1)
+        }
+        return temp(vector.length-1)
+    }
+
+    def countZerosFromTheLeft(value: UInt): UInt = {
+        val sequence = Vec((~value).toBools)
+        val res = Array.tabulate(sequence.getWidth)(n => Wire(UInt(1.W)))
+        for (i <- 0 to sequence.getWidth-1) {
+            if(i == (sequence.getWidth-1)) {
+                res(i) := sequence(i)
+            }
+            else{
+                res(i) := res(i+1)&sequence(i)
+            }
+        }
+        return sum(res)
+    }
 
 }
 
