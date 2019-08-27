@@ -139,4 +139,14 @@ class FloatingPoint(exp: Int, man: Int) extends Bundle {
         return res
     }
 
+    def toUInt(): UInt = {
+        val difference = ((pow(2, this.exp-1)-1).toInt).U-this.exponent
+        return Cat(0.U((1+this.exp).W), Cat(1.U(1.W), mantissa)>>((this.man).U+difference))
+    }
+
+    def toSInt(): SInt = {
+        val res = this.toUInt
+        return Mux(this.sign, (~res)+1.U, res).asSInt
+    }
+
 }

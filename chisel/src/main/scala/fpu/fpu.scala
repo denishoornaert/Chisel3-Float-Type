@@ -9,7 +9,7 @@ import double._
 class FPU extends Module {
     val io = IO(new Bundle {
         val inputType = Input(UInt(1.W)) // 0: float & double: 1
-        val operand   = Input(UInt(1.W)) // 0: mul & 1: add
+        val operand   = Input(UInt(2.W)) // 0: mul, 1: add, 2: toUInt & 3: toSInt
         val operand1  = Input(UInt(64.W))
         val operand2  = Input(UInt(64.W))
         val result    = Output(UInt(64.W))
@@ -20,11 +20,17 @@ class FPU extends Module {
         val op2 = (io.operand2).asTypeOf(new Double)
 
         val res = Wire(new Double)
-        when(io.operand.asBool) {
+        when(io.operand === 0.U) {
             res := op1+op2
         }
-        .otherwise{
+        .elsewhen(io.operand === 1.U) {
             res := op1*op2
+        }
+        .elsewhen(io.operand === 2.U) {
+            res := (op1.toUInt).asTypeOf(new Double)
+        }
+        .otherwise{
+            res := (op1.toSInt).asTypeOf(new Double)
         }
         io.result := res.asUInt
     }
@@ -33,11 +39,17 @@ class FPU extends Module {
         val op2 = (io.operand2).asTypeOf(new Float)
 
         val res = Wire(new Float)
-        when(io.operand.asBool) {
+        when(io.operand === 0.U) {
             res := op1+op2
         }
-        .otherwise{
+        .elsewhen(io.operand === 1.U) {
             res := op1*op2
+        }
+        .elsewhen(io.operand === 2.U) {
+            res := (op1.toUInt).asTypeOf(new Float)
+        }
+        .otherwise{
+            res := (op1.toSInt).asTypeOf(new Float)
         }
         io.result := Cat(0.U(32.W), res.asUInt)
     }
