@@ -6,3 +6,4 @@ project/
 *.v
 *.fir
 *.anno.json
+resolution-cache/
