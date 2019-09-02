@@ -18,7 +18,8 @@ object Double {
 
         def toDouble(): Double = {
             val res = Wire(new Double)
-            val shifts = FloatingPoint.countZerosFromTheLeft(elem)
+            val shifts = FloatingPoint.countZerosFromTheLeft(elem(51, 0))
+            printf(p"shifts = ${shifts}\n")
             res.mantissa := elem << shifts
             res.exponent := (1023+52).U-shifts
             res.sign := 0.U

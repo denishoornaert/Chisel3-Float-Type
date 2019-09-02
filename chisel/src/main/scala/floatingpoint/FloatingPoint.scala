@@ -11,29 +11,49 @@ object FloatingPoint {
 
     val nan :: an :: ninfinity :: infinity :: Nil = Enum(4)
 
+    private def negate(vector: Array[UInt]): Array[UInt] = {
+        val res = Array.tabulate(vector.length)(n => Wire(UInt((vector(n).getWidth).W)))
+        for (i <- 0 to vector.length-1) {
+            res(i) := ~vector(i)
+        }
+        return res
+    }
+
     private def log2(x: Int): Int = (round(log(x)/log(2))).toInt
 
     private def sum(vector: Array[UInt]): UInt = {
-        val temp = Array.tabulate(vector.length)(n => UInt((log2(vector.length+1)).W))
-        temp(0) = vector(0)
+        val length = log2(vector.length+1)
+        val temp = Array.tabulate(vector.length)(n => UInt(length.W))
+        temp(0) = Cat(0.U ((length-1).W), vector(0))
         for (i <- 1 to vector.length-1) {
-            temp(i) = vector(i)+temp(i-1)
+            temp(i) = Cat(0.U ((length-1).W), vector(i))+temp(i-1)
         }
         return temp(vector.length-1)
     }
 
     def countZerosFromTheLeft(value: UInt): UInt = {
+        printf(p"value = ${Binary(value)}\n")
         val sequence = Vec((~value).toBools)
+        printf(p"sequence = ${sequence}\n")
         val res = Array.tabulate(sequence.getWidth)(n => Wire(UInt(1.W)))
         for (i <- 0 to sequence.getWidth-1) {
-            if(i == (sequence.getWidth-1)) {
+            if(i == 0) {
                 res(i) := sequence(i)
             }
             else{
-                res(i) := res(i+1)&sequence(i)
+                res(i) := res(i-1)&sequence(i)
             }
         }
-        return sum(res)
+        for (i <- 0 to res.length-1) {
+            printf(p"${res(i)}, ")
+        }
+        printf("\n")
+        val tmp = negate(res)
+        for (i <- 0 to tmp.length-1) {
+            printf(p"${tmp(i)}, ")
+        }
+        printf("\n")
+        return sum(tmp)
     }
 
 }
