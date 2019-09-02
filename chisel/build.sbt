@@ -26,9 +26,9 @@ def javacOptionsVersion(scalaVersion: String): Seq[String] = {
   }
 }
 
-name := "chisel-module-template"
+name := "chisel3-float-type"
 
-version := "3.1.1"
+version := "1.0"
 
 scalaVersion := "2.11.12"
 
@@ -51,3 +51,5 @@ libraryDependencies ++= Seq("chisel3","chisel-iotesters").map {
 scalacOptions ++= scalacOptionsVersion(scalaVersion.value)
 
 javacOptions ++= javacOptionsVersion(scalaVersion.value)
+
+crossTarget := baseDirectory.value / ".."

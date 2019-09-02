@@ -1,4 +1,4 @@
-# Chisel3-Float-Type
+# Chisel3 Float Type
 
 The repository contains the source code implementing in Chisel3 a floating point representation compliant with ieee754. The objective being to use it in the designing of hardware accelerators or co-processors running alongside traditional CPUs (e.g. Xilinx Zynq & UltraScale, Intel Stratix), only the implementation of 32 bit float (```float```), 64 bit float (```double```) and 128 bit float (```long double```) are considered for the time being.
 
@@ -92,10 +92,18 @@ cd chisel/
 sbt "test:runMain fpu.FPUMain"
 ```
 
+### Generate the package
+The generation of the package can be done as follows:
+```bash
+cd chisel/
+sbt "package"
+mv chisel3-float-type_2.11-1.0.jar chisel-float-type.jar
+```
+
 ### Coming updates
 
-- [ ] Upload this library on a ```sbt``` server so that dependencies can be solved easily
-- [ ] Implementing a ```asFloat``` casting method
+- [x] Make the project an importable library
+- [ ] Implementing casting methods such as ```asFloat```
 - [ ] Implementation of the division operator
 - [x] Implementation of ```double```
 - [ ] Implementation of ```long double```
