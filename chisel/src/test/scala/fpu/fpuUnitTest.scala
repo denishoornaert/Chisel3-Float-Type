@@ -49,6 +49,13 @@ class FPUUnitTester(c: FPU) extends PeekPokeTester(c) {
     "h0000000000000003".U, "hfffffffffffffffd".U
     )
 
+    val uIntCastToDoubleInput = Array(
+    "h0000000000000003".U, "h000000006b8b4567".U, "h00000000327b23c6".U, "h00000000643c9869".U, "h0000000066334873".U, "h0000000074b0dc51".U, "h0000000000000000".U
+    )
+    val uIntCastToDoubleOutput = Array(
+    "h4008000000000000".U, "h41dae2d159c00000".U, "h41c93d91e3000000".U, "h41d90f261a400000".U, "h41d98cd21cc00000".U, "h41dd2c3714400000".U, "h0000000000000000".U
+    )
+
     val sIntCastToDoubleInput = Array(
     "h0000000000000002".U, "h0000000000000005".U, "h0000000000000000".U, "h0000000000000000".U, "h0000000000000001".U, "hfffffffffffffffe".U, "hfffffffffffffffb".U, "h0000000000000000".U, "h0000000000000000".U, "hffffffffffffffff".U
     )
@@ -90,28 +97,28 @@ class FPUUnitTester(c: FPU) extends PeekPokeTester(c) {
 //        expect(c.io.result, doubleOutputMul(i))
 //    }
 
-    poke(c.io.operand, 2) // ask for converstion to uint
-    for (i <- 0 to 0) {
-        poke(c.io.operand1, doubleCastToUIntInput(i))
-        poke(c.io.operand2, 1.U)
-        step(1)
-        expect(c.io.result, doubleCastToUIntOutput(i))
-    }
+//    poke(c.io.operand, 2) // ask for converstion to uint
+//    for (i <- 0 to 0) {
+//        poke(c.io.operand1, doubleCastToUIntInput(i))
+//        poke(c.io.operand2, 1.U)
+//        step(1)
+//        expect(c.io.result, doubleCastToUIntOutput(i))
+//    }
 
-    poke(c.io.operand, 3) // ask for converstion to uint
-    for (i <- 0 to 1) {
-        poke(c.io.operand1, doubleCastToSIntInput(i))
-        poke(c.io.operand2, 1.U)
-        step(1)
-        expect(c.io.result, doubleCastToSIntOutput(i))
-    }
+//    poke(c.io.operand, 3) // ask for converstion to uint
+//    for (i <- 0 to 1) {
+//        poke(c.io.operand1, doubleCastToSIntInput(i))
+//        poke(c.io.operand2, 1.U)
+//        step(1)
+//        expect(c.io.result, doubleCastToSIntOutput(i))
+//    }
 
     poke(c.io.operand, 4) // ask for converstion to uint
-    for (i <- 0 to 9) {
-        poke(c.io.operand1, sIntCastToDoubleInput(i))
+    for (i <- 0 to 6) {
+        poke(c.io.operand1, uIntCastToDoubleInput(i))
         poke(c.io.operand2, 1.U)
         step(1)
-        expect(c.io.result, sIntCastToDoubleOutput(i))
+        expect(c.io.result, uIntCastToDoubleOutput(i))
     }
 
 }

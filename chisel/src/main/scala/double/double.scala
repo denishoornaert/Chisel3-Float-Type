@@ -4,6 +4,7 @@ import chisel3._
 import chisel3.util._
 
 import floatingpoint._
+import floatingpoint.FloatingPoint._
 
 class Double() extends FloatingPoint(11, 52) {
 
@@ -17,13 +18,7 @@ object Double {
     implicit class UIntToDouble(elem: UInt) {
 
         def toDouble(): Double = {
-            val res = Wire(new Double)
-            val shifts = FloatingPoint.countZerosFromTheLeft(elem(51, 0))
-            printf(p"shifts = ${shifts}\n")
-            res.mantissa := elem << shifts
-            res.exponent := (1023+52).U-shifts
-            res.sign := 0.U
-            return res
+            return (elem.toFloatingPoint(11, 52)).asTypeOf(new Double)
         }
     }
 }

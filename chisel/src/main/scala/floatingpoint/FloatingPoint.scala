@@ -11,14 +11,6 @@ object FloatingPoint {
 
     val nan :: an :: ninfinity :: infinity :: Nil = Enum(4)
 
-    private def negate(vector: Array[UInt]): Array[UInt] = {
-        val res = Array.tabulate(vector.length)(n => Wire(UInt((vector(n).getWidth).W)))
-        for (i <- 0 to vector.length-1) {
-            res(i) := ~vector(i)
-        }
-        return res
-    }
-
     private def log2(x: Int): Int = (round(log(x)/log(2))).toInt
 
     private def sum(vector: Array[UInt]): UInt = {
@@ -31,29 +23,36 @@ object FloatingPoint {
         return temp(vector.length-1)
     }
 
-    def countZerosFromTheLeft(value: UInt): UInt = {
-        printf(p"value = ${Binary(value)}\n")
+    private def countZerosFromTheLeft(value: UInt): UInt = {
         val sequence = Vec((~value).toBools)
-        printf(p"sequence = ${sequence}\n")
         val res = Array.tabulate(sequence.getWidth)(n => Wire(UInt(1.W)))
         for (i <- 0 to sequence.getWidth-1) {
-            if(i == 0) {
+            if(i == sequence.getWidth-1) {
                 res(i) := sequence(i)
             }
             else{
-                res(i) := res(i-1)&sequence(i)
+                res(i) := res(i+1)&sequence(i)
             }
         }
-        for (i <- 0 to res.length-1) {
-            printf(p"${res(i)}, ")
+        return sum(res)+1.U
+    }
+
+    implicit class UIntToFloatingPoint(elem: UInt) {
+
+        def toFloatingPoint(exp: Int, man: Int): FloatingPoint = {
+            val res = Wire(new FloatingPoint(exp, man))
+            when(elem === 0.U) {
+                res := (0.U).asTypeOf(new FloatingPoint(exp, man))
+            }
+            .otherwise {
+                val shifts = countZerosFromTheLeft(elem(man-1, 0))
+                printf(p"shifts = ${shifts}\n")
+                res.mantissa := elem << shifts
+                res.exponent := (((pow(2, exp-1)-1).toInt)+man).U-shifts
+                res.sign := 0.U
+            }
+            return res
         }
-        printf("\n")
-        val tmp = negate(res)
-        for (i <- 0 to tmp.length-1) {
-            printf(p"${tmp(i)}, ")
-        }
-        printf("\n")
-        return sum(tmp)
     }
 
 }

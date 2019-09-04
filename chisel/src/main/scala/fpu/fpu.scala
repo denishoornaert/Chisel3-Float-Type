@@ -10,7 +10,7 @@ import double.Double._
 class FPU extends Module {
     val io = IO(new Bundle {
         val inputType = Input(UInt(1.W)) // 0: float & double: 1
-        val operand   = Input(UInt(3.W)) // 0: mul, 1: add, 2: toUInt, 3: toSInt & 4: toDouble
+        val operand   = Input(UInt(3.W)) // 0: mul, 1: add, 2: toUInt, 3: toSInt & 4: toDouble (UInt)
         val operand1  = Input(UInt(64.W))
         val operand2  = Input(UInt(64.W))
         val result    = Output(UInt(64.W))
