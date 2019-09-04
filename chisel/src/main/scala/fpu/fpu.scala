@@ -4,6 +4,7 @@ import chisel3._
 import chisel3.util._
 
 import float._
+import float.Float._
 import double._
 import double.Double._
 
@@ -21,23 +22,14 @@ class FPU extends Module {
         val op2 = (io.operand2).asTypeOf(new Double)
 
         val res = Wire(new Double)
-        when(io.operand === 0.U) {
-            res := op1+op2
-        }
-        .elsewhen(io.operand === 1.U) {
-            res := op1*op2
-        }
-        .elsewhen(io.operand === 2.U) {
-            res := (op1.toUInt).asTypeOf(new Double)
-        }
-        .elsewhen(io.operand === 3.U) {
-            res := (op1.toSInt).asTypeOf(new Double)
-        }
-        .elsewhen(io.operand === 4.U) {
-            res := (op1.asUInt).toDouble
-        }
-        .otherwise {
-            res := (op1.asUInt.asSInt).toDouble
+        res := op1 // default value if no match
+        switch(io.operand) {
+            is(0.U) { res := op1+op2 }
+            is(1.U) { res := op1*op2 }
+            is(2.U) { res := (op1.toUInt).asTypeOf(new Double) }
+            is(3.U) { res := (op1.toSInt).asTypeOf(new Double) }
+            is(4.U) { res := (op1.asUInt).toDouble }
+            is(5.U) { res := (op1.asUInt.asSInt).toDouble }
         }
         io.result := res.asUInt
     }
@@ -46,23 +38,14 @@ class FPU extends Module {
         val op2 = (io.operand2).asTypeOf(new Float)
 
         val res = Wire(new Float)
-        when(io.operand === 0.U) {
-            res := op1+op2
-        }
-        .elsewhen(io.operand === 1.U) {
-            res := op1*op2
-        }
-        .elsewhen(io.operand === 2.U) {
-            res := (op1.toUInt).asTypeOf(new Float)
-        }
-        .elsewhen(io.operand === 3.U){
-            res := (op1.toSInt).asTypeOf(new Float)
-        }
-        .elsewhen(io.operand === 4.U) {
-            res := op1
-        }
-        .otherwise {
-            res := op1
+        res := op1 // default value if no match
+        switch(io.operand) {
+            is(0.U) { res := op1+op2 }
+            is(1.U) { res := op1*op2 }
+            is(2.U) { res := (op1.toUInt).asTypeOf(new Float) }
+            is(3.U) { res := (op1.toSInt).asTypeOf(new Float) }
+            is(4.U) { res := (op1.asUInt).toFloat }
+            is(5.U) { res := (op1.asUInt.asSInt).toFloat }
         }
         io.result := Cat(0.U(32.W), res.asUInt)
     }
