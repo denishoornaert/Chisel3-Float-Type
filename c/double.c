@@ -253,8 +253,10 @@ void testMul() {
 }
 
 double uint_to_double(long unsigned significand) {
-    if ((significand == 0) || (significand >= 0x0020000000000000))
+    if ((significand >= 0x0020000000000000))
         return -1.0;
+    else if(significand == 0)
+        return 0.0;
     int shifts = 0;
     while ((significand & 0x0010000000000000) == 0) {
         significand <<= 1;
@@ -298,9 +300,10 @@ unsigned char assertEqualInt(long int a, long int b) {
 }
 
 void testUintToDouble() {
+    printf("Test UInt -> Double\n");
     unsigned char count = 0;
-    long unsigned t[1] = {3};
-    for (size_t i = 0; i < 1; i++) {
+    long unsigned t[6] = {0x6b8b4567, 0x327b23c6, 0x643c9869, 0x66334873, 0x74b0dc51, 0}; //{3, 0x6b8b4567327b23c6, 0x643c986966334873, 0x74b0dc5119495cff, 0x2ae8944a625558ec, 0x238e1f2946e87ccd};
+    for (size_t i = 0; i < 6; i++) {
         double tmp = uint_to_double(t[i]);
         printf("%lx -> %lx\n", t[i], *(long unsigned*)&tmp);
         count += assertEqualDouble((double)t[i], uint_to_double(t[i]));
@@ -309,6 +312,7 @@ void testUintToDouble() {
 }
 
 void testIntToDouble() {
+  printf("Test Int -> Double\n");
     unsigned char count = 0;
     long int t[2] = {3, -3};
     for (size_t i = 0; i < 2; i++) {
