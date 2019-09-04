@@ -97,7 +97,8 @@ The generation of the package can be done as follows:
 ```bash
 cd chisel/
 sbt "package"
-mv chisel3-float-type_2.11-1.0.jar chisel-float-type.jar
+cp target/scala-2.11/chisel3-float-type_2.11-1.0.jar ../
+mv ../chisel3-float-type_2.11-1.0.jar ../chisel-float-type.jar
 ```
 
 ### Coming updates
