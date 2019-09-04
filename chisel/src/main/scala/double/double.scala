@@ -21,4 +21,12 @@ object Double {
             return (elem.toFloatingPoint(11, 52)).asTypeOf(new Double)
         }
     }
+
+    implicit class SIntToDouble(elem: SInt) {
+
+        def toDouble(): Double = {
+            return (elem.toFloatingPoint(11, 52)).asTypeOf(new Double)
+        }
+    }
+
 }

@@ -57,10 +57,10 @@ class FPUUnitTester(c: FPU) extends PeekPokeTester(c) {
     )
 
     val sIntCastToDoubleInput = Array(
-    "h0000000000000002".U, "h0000000000000005".U, "h0000000000000000".U, "h0000000000000000".U, "h0000000000000001".U, "hfffffffffffffffe".U, "hfffffffffffffffb".U, "h0000000000000000".U, "h0000000000000000".U, "hffffffffffffffff".U
+    "hfffffffffffffffb".U, "hfffffffffffffffc".U, "hfffffffffffffffd".U, "hfffffffffffffffe".U, "hffffffffffffffff".U, "h0000000000000000".U, "h0000000000000001".U, "h0000000000000002".U, "h0000000000000003".U, "h0000000000000004".U, "h0000000000000005".U, "h000000006b8b4567".U, "h00000000327b23c6".U, "h00000000643c9869".U, "h0000000066334873".U, "h0000000014b0dc51".U, "hffffffff9474ba99".U, "hffffffffcd84dc3a".U, "hffffffff9bc36797".U, "hffffffff99ccb78d".U, "hffffffffeb4f23af".U
     )
     val sIntCastToDoubleOutput = Array(
-    "h4000000000000000".U, "h4014000000000000".U, "h3fe0000000000000".U, "h3fe8000000000000".U, "h3ff8000000000000".U, "hc000000000000000".U, "hc014000000000000".U, "hbfe0000000000000".U, "hbfe8000000000000".U, "hbff8000000000000".U
+    "hc014000000000000".U, "hc010000000000000".U, "hc008000000000000".U, "hc000000000000000".U, "hbff0000000000000".U, "h0000000000000000".U, "h3ff0000000000000".U, "h4000000000000000".U, "h4008000000000000".U, "h4010000000000000".U, "h4014000000000000".U, "h41dae2d159c00000".U, "h41c93d91e3000000".U, "h41d90f261a400000".U, "h41d98cd21cc00000".U, "h41b4b0dc51000000".U, "hc1dae2d159c00000".U, "hc1c93d91e3000000".U, "hc1d90f261a400000".U, "hc1d98cd21cc00000".U, "hc1b4b0dc51000000".U
     )
 
 //    poke(c.io.inputType, 0) // ask for float
@@ -113,12 +113,20 @@ class FPUUnitTester(c: FPU) extends PeekPokeTester(c) {
 //        expect(c.io.result, doubleCastToSIntOutput(i))
 //    }
 
-    poke(c.io.operand, 4) // ask for converstion to uint
-    for (i <- 0 to 6) {
-        poke(c.io.operand1, uIntCastToDoubleInput(i))
+//    poke(c.io.operand, 4) // ask for converstion to double from uint
+//    for (i <- 0 to 6) {
+//        poke(c.io.operand1, uIntCastToDoubleInput(i))
+//        poke(c.io.operand2, 1.U)
+//        step(1)
+//        expect(c.io.result, uIntCastToDoubleOutput(i))
+//    }
+
+    poke(c.io.operand, 5) // ask for converstion to double from sint
+    for (i <- 0 to 20) {
+        poke(c.io.operand1, sIntCastToDoubleInput(i))
         poke(c.io.operand2, 1.U)
         step(1)
-        expect(c.io.result, uIntCastToDoubleOutput(i))
+        expect(c.io.result, sIntCastToDoubleOutput(i))
     }
 
 }

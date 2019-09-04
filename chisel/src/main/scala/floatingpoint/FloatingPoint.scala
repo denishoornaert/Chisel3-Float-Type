@@ -46,11 +46,21 @@ object FloatingPoint {
             }
             .otherwise {
                 val shifts = countZerosFromTheLeft(elem(man-1, 0))
-                printf(p"shifts = ${shifts}\n")
                 res.mantissa := elem << shifts
                 res.exponent := (((pow(2, exp-1)-1).toInt)+man).U-shifts
                 res.sign := 0.U
             }
+            return res
+        }
+    }
+
+    implicit class SIntToFloatingPoint(elem: SInt) {
+
+        def toFloatingPoint(exp: Int, man: Int): FloatingPoint = {
+            val sign = (elem < 0.S)
+            val representation = Mux(sign, ~(elem.asUInt-1.U), elem.asUInt)
+            val res = representation.toFloatingPoint(exp, man)
+            res.sign := sign
             return res
         }
     }
