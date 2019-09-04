@@ -6,7 +6,7 @@ import chisel3.util._
 import floatingpoint._
 import floatingpoint.FloatingPoint._
 
-class Double() extends FloatingPoint(11, 52) {
+class Double() extends FloatingPoint(Double.exp, Double.man) {
 
     override def cloneType = (new Double()).asInstanceOf[this.type]
 
@@ -15,17 +15,20 @@ class Double() extends FloatingPoint(11, 52) {
 
 object Double {
 
+    val exp = 11
+    val man = 52
+
     implicit class UIntToDouble(elem: UInt) {
 
         def toDouble(): Double = {
-            return (elem.toFloatingPoint(11, 52)).asTypeOf(new Double)
+            return (elem.toFloatingPoint(Double.exp, Double.man)).asTypeOf(new Double)
         }
     }
 
     implicit class SIntToDouble(elem: SInt) {
 
         def toDouble(): Double = {
-            return (elem.toFloatingPoint(11, 52)).asTypeOf(new Double)
+            return (elem.toFloatingPoint(Double.exp, Double.man)).asTypeOf(new Double)
         }
     }
 
