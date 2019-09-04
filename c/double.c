@@ -302,7 +302,7 @@ unsigned char assertEqualInt(long int a, long int b) {
 void testUintToDouble() {
     printf("Test UInt -> Double\n");
     unsigned char count = 0;
-    long unsigned t[6] = {0x6b8b4567, 0x327b23c6, 0x643c9869, 0x66334873, 0x74b0dc51, 0}; //{3, 0x6b8b4567327b23c6, 0x643c986966334873, 0x74b0dc5119495cff, 0x2ae8944a625558ec, 0x238e1f2946e87ccd};
+    long unsigned t[6] = {0x6b8b4567, 0x327b23c6, 0x643c9869, 0x66334873, 0x74b0dc51, 0};
     for (size_t i = 0; i < 6; i++) {
         double tmp = uint_to_double(t[i]);
         printf("%lx -> %lx\n", t[i], *(long unsigned*)&tmp);
@@ -314,8 +314,8 @@ void testUintToDouble() {
 void testIntToDouble() {
   printf("Test Int -> Double\n");
     unsigned char count = 0;
-    long int t[2] = {3, -3};
-    for (size_t i = 0; i < 2; i++) {
+    long int t[12] = {0x6b8b4567, 0x327b23c6, 0x643c9869, 0x66334873, 0x14b0dc51, -0x6b8b4567, -0x327b23c6, -0x643c9869, -0x66334873, -0x14b0dc51};
+    for (size_t i = 0; i < 12; i++) {
         double tmp = int_to_double(t[i]);
         printf("%lx -> %lx\n", t[i], *(long unsigned*)&tmp);
         count += assertEqualDouble((double)t[i], int_to_double(t[i]));
@@ -335,6 +335,7 @@ long unsigned double_to_uint(double significand) {
 }
 
 void testDoubleToUint() {
+    printf("Test Double -> UInt\n");
     unsigned char count = 0;
     double t[5] = {2.0, 5.0, 0.5, 0.75, 1.5};
     for (size_t i = 0; i < 5; i++) {
@@ -354,6 +355,7 @@ int double_to_int(double significand) {
 }
 
 void testDoubleToInt() {
+    printf("Test Double -> Int\n");
     unsigned char count = 0;
     double t[10] = {2.0, 5.0, 0.5, 0.75, 1.5, -2.0, -5.0, -0.5, -0.75, -1.5};
     for (size_t i = 0; i < 10; i++) {
