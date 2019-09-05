@@ -104,7 +104,7 @@ mv ../chisel3-float-type_2.11-1.0.jar ../chisel-float-type.jar
 ### Coming updates
 
 - [x] Make the project an importable library
-- [ ] Implementing casting methods such as ```asFloat```
+- [x] Implementing casting methods such as ```toFloat``` and others
 - [ ] Implementation of the division operator
 - [x] Implementation of ```double```
 - [ ] Implementation of ```long double```
