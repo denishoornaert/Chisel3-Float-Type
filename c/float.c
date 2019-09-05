@@ -252,10 +252,12 @@ void testMul() {
 }
 
 float uint_to_float(unsigned int significand) {
-    if (significand == 0 || significand >= 1 << 24)
-        return -1.0;
+    if (significand >= 1 << 24)
+        return -1.0f;
+    else if(significand == 0)
+        return 0.0f;
     int shifts = 0;
-    while ((significand & (1 << 23)) == 0) {
+    while ((significand & 0x00800000) == 0) {
         significand <<= 1;
         shifts++;
     }
@@ -277,7 +279,7 @@ float int_to_float(int significand) {
 
 unsigned char assertEqualFloat(float a, float b) {
     if(a != b) {
-        printf("test failed: %f != %f\n", a, b);
+        printf("test failed: %f != %f (%x != %x)\n", a, b, *(unsigned*)&a, *(unsigned*)&b);
     }
     return (a != b);
 }
@@ -295,11 +297,27 @@ unsigned char assertEqualInt(int a, int b) {
     return (a != b);
 }
 
-void testUintAndIntToFloat() {
+void testUintToFloat() {
+    printf("Test UInt -> Float\n");
     unsigned char count = 0;
-    count += assertEqualFloat((float)3, uint_to_float(3));
-    count += assertEqualFloat((float)3, int_to_float(3));
-    count += assertEqualFloat((float)-3, int_to_float(-3));
+    unsigned t[6] = {0x007b4567, 0x007b23c6, 0x003c9869, 0x00334873, 0x0050dc51, 0};
+    for (size_t i = 0; i < 6; i++) {
+        float tmp = uint_to_float(t[i]);
+        printf("%x -> %x\n", t[i], *(unsigned*)&tmp);
+        count += assertEqualFloat((float)t[i], tmp);
+    }
+    printf("%u tests failed\n", count);
+}
+
+void testIntToFloat() {
+    printf("Test Int -> Float\n");
+    unsigned char count = 0;
+    int t[12] = {0x007b4567, 0x007b23c6, 0x003c9869, 0x00334873, 0x0050dc51, -0x007b4567, -0x007b23c6, -0x003c9869, -0x00334873, -0x0050dc51};
+    for (size_t i = 0; i < 12; i++) {
+        float tmp = int_to_float(t[i]);
+        printf("%x -> %x\n", t[i], *(unsigned*)&tmp);
+        count += assertEqualFloat((float)t[i], tmp);
+    }
     printf("%u tests failed\n", count);
 }
 
@@ -315,10 +333,13 @@ unsigned float_to_uint(float significand) {
 }
 
 void testFloatToUint() {
+    printf("Test Float -> UInt\n");
     unsigned char count = 0;
     float t[5] = {2.0f, 5.0f, 0.5f, 0.75f, 1.5f};
     for (size_t i = 0; i < 5; i++) {
-        count += assertEqualUnsigned((unsigned)t[i], float_to_uint(t[i]));
+        unsigned tmp = float_to_uint(t[i]);
+        printf("%x -> %x\n", *(unsigned*)&t[i], tmp);
+        count += assertEqualUnsigned((unsigned)t[i], tmp);
     }
     printf("%u tests failed\n", count);
 }
@@ -333,10 +354,13 @@ int float_to_int(float significand) {
 }
 
 void testFloatToInt() {
+    printf("Test Float -> Int\n");
     unsigned char count = 0;
     float t[10] = {2.0f, 5.0f, 0.5f, 0.75f, 1.5f, -2.0f, -5.0f, -0.5f, -0.75f, -1.5f};
     for (size_t i = 0; i < 10; i++) {
-        count += assertEqualInt((int)t[i], float_to_int(t[i]));
+        int tmp = float_to_int(t[i]);
+        printf("%x -> %x\n", *(unsigned*)&t[i], tmp);
+        count += assertEqualInt((int)t[i], tmp);
     }
     printf("%u tests failed\n", count);
 }
@@ -344,7 +368,8 @@ void testFloatToInt() {
 int main(int argc, char const *argv[]) {
     //testAdd();
     //testMul();
-    testUintAndIntToFloat();
+    testUintToFloat();
+    testIntToFloat();
     testFloatToUint();
     testFloatToInt();
     return 0;
