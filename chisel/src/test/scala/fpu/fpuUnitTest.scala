@@ -22,6 +22,34 @@ class FPUUnitTester(c: FPU) extends PeekPokeTester(c) {
     val floatOutputMul = Array("h4396d200".U, "h000000004396d200".U, "h00000000c396d200".U, "h00000000c396d200".U, "h00000000c396d200".U, "h00000000c396d200".U, "h000000004396d200".U, "h000000004396d200".U, "h00000000c11dc0ed".U, "h00000000c11dc0ed".U, "h0000000000000000".U, "h0000000000000000".U, "h000000007fc00000".U, "h000000007fc00000".U, "h00000000ffc00000".U, "h00000000ffc00000".U, "h000000007f800000".U, "h00000000ff800000".U, "h00000000ff800000".U, "h000000007f800000".U, "h000000007f800000".U, "h00000000ff800000".U, "h000000003ea9a774".U, "h000000003f2010e5".U, "h000000003e386b66".U, "h000000003e83dab7".U, "h000000003e1d926b".U, "h000000003e99b695".U, "h000000003e3fc682".U, "h000000003f5f5775".U, "h000000003ee9780f".U, "h000000003db005b0".U, "h000000003b81bc1f".U, "h000000003de2039b".U, "h000000003d80a790".U, "h000000003c676165".U, "h000000003e5f4134".U, "h000000003edc5e6b".U, "h000000003e39b6a3".U, "h000000003eab2430".U, "h000000003ef5d598".U, "h000000003e670ce2".U, "h000000003ecfa405".U, "h000000003eb6b089".U, "h000000003dcc81a4".U, "h000000003f3e08b3".U, "h000000003d879ea7".U, "h000000003d3967c5".U, "h000000003e028a7c".U, "h000000003e9f066c".U, "h000000003aa86a46".U, "h000000003cec93cf".U, "h000000003e6cd55c".U, "h000000003f44886d".U, "h000000003e1363db".U, "h000000003e920c5f".U, "h000000003eaf390b".U, "h000000003cab1010".U, "h000000003ed0cbf5".U, "h000000003f2bcb36".U, "h000000003e56ffdf".U, "h000000003e68058b".U, "h000000003de9d081".U, "h000000003ec64f79".U, "h000000003e8c3eb5".U, "h000000003e517691".U, "h000000003e765b13".U, "h000000003f1021ca".U, "h000000003f107d44".U, "h000000003ecff198".U, "h000000003ea6364c".U, "h000000003f1f90d9".U, "h000000003dd543f6".U, "h000000003f5fd5aa".U, "h000000003e053852".U, "h000000003e8dc810".U, "h000000003e3252a7".U, "h000000003e777662".U, "h000000003dcf0198".U, "h000000003d542f8a".U, "h000000003e6d525f".U, "h000000003e1d7dd8".U, "h000000003c551cc0".U, "h000000003ec0e862".U, "h000000003f6bb60f".U, "h000000003e86486e".U, "h000000003e8d8608".U, "h000000003d8bec7a".U, "h000000003e1248f5".U, "h000000003de47fd7".U, "h000000003dcbe670".U, "h000000003dfa6777".U, "h000000003d910564".U, "h000000003ce07061".U, "h000000003d2d4463".U, "h000000003f15a276".U, "h000000003f229a0c".U, "h000000003ef8bd3e".U, "h000000003c4e9d49".U, "h000000003d26b20d".U, "h000000003c6a66a6".U, "h000000003ec1a583".U, "h000000003eddcae4".U, "h000000003c0649d7".U, "h000000003e513b2d".U, "h000000003de4aeb9".U, "h000000003d5ceeb7".U, "h000000003d80f3d9".U, "h000000003b7bc0e1".U, "h000000003ddb629c".U, "h000000003d82dc70".U, "h000000003f3f9760".U, "h000000003e4b2803".U, "h000000003e8643cc".U, "h000000003d8c452e".U, "h000000003ecdd002".U, "h000000003e9a969c".U, "h000000003f01a0aa".U, "h000000003ef0cbc7".U, "h000000003cd8fd0f".U, "h000000003f456426".U, "h000000003f39c8de".U
     )
 
+    val floatCastToUIntInput = Array(
+    "h0000000040000000".U, "h0000000040a00000".U, "h000000003f000000".U, "h000000003f400000".U, "h000000003fc00000".U
+    )
+    val floatCastToUIntOutput = Array(
+    "h0000000000000002".U, "h0000000000000005".U, "h0000000000000000".U, "h0000000000000000".U, "h0000000000000001".U
+    )
+
+    val floatCastToSIntInput = Array(
+    "h0000000040000000".U, "h0000000040a00000".U, "h000000003f000000".U, "h000000003f400000".U, "h000000003fc00000".U, "h00000000c0000000".U, "h00000000c0a00000".U, "h00000000bf000000".U, "h00000000bf400000".U, "h00000000bfc00000".U
+    )
+    val floatCastToSIntOutput = Array(
+    "h0000000000000002".U, "h0000000000000005".U, "h0000000000000000".U, "h0000000000000000".U, "h0000000000000001".U, "h00000000fffffffe".U, "h00000000fffffffb".U, "h0000000000000000".U, "h0000000000000000".U, "h00000000ffffffff".U
+    )
+
+    val uIntCastToFloatInput = Array(
+    "h00000000007b4567".U, "h00000000007b23c6".U, "h00000000003c9869".U, "h0000000000334873".U, "h000000000050dc51".U
+    )
+    val uIntCastToFloatOutput = Array(
+    "h000000004af68ace".U, "h000000004af6478c".U, "h000000004a7261a4".U, "h000000004a4d21cc".U, "h000000004aa1b8a2".U
+    )
+
+    val sIntCastToFloatInput = Array(
+    "h00000000007b4567".U, "h00000000007b23c6".U, "h00000000003c9869".U, "h0000000000334873".U, "h000000000050dc51".U, "h00000000ff84ba99".U, "h00000000ff84dc3a".U, "h00000000ffc36797".U, "h00000000ffccb78d".U, "h00000000ffaf23af".U, "h0000000000000000".U
+    )
+    val sIntCastToFloatOutput = Array(
+    "h000000004af68ace".U, "h000000004af6478c".U, "h000000004a7261a4".U, "h000000004a4d21cc".U, "h000000004aa1b8a2".U, "h00000000caf68ace".U, "h00000000caf6478c".U, "h00000000ca7261a4".U, "h00000000ca4d21cc".U, "h00000000caa1b8a2".U, "h0000000000000000".U
+    )
+
     val doubleInput1 = Array(
     "h4002000000000000".U, "h4060c20000000000".U, "hc002000000000000".U, "h4060c20000000000".U, "h4002000000000000".U, "hc060c20000000000".U, "hc002000000000000".U, "hc060c20000000000".U, "h40091eb851eb851f".U, "hc0091eb851eb851f".U, "h0000000000000000".U, "h8000000000000000".U, "h7ff8000000000000".U, "h7ff8000000000000".U, "hfff8000000000000".U, "hfff8000000000000".U, "h7ff0000000000000".U, "h7ff0000000000000".U, "hfff0000000000000".U, "hfff0000000000000".U, "h7ff0000000000000".U, "h7ff0000000000000".U, "h3feae2d159f5c5a3".U, "h3fe90f261a721e4c".U, "h3fed2c37147a586e".U, "h3fd5744a252ae894".U, "h3fd1c70f94a38e1f".U, "h3fde8dac5d3d1b59".U, "h3fd758a0f92eb142".U, "h3fee78aa78fcf155".U, "h3fe457c01f28af80".U, "h3fc2200854244011".U, "h3f90b118d8216232".U, "h3fc190cde723219c".U, "h3fc40e0f76281c1f".U, "h3fc09cf92e2139f2".U, "h3feff7308cffee61".U, "h3fe069f13260d3e2".U, "h3fe39abed9a7357e".U, "h3fe466d40368cda8".U, "h3fdf96dd18bf2dba".U, "h3fd2b89851a57131".U, "h3fe0db184961b631".U, "h3fd99d5882b33ab1".U, "h3fd221d42c2443a8".U, "h3fe9d8e117b3b1c2".U, "h3fb1db7b5623b6f7".U, "h3fe0d4f43361a9e8".U, "h3fc89a769b3134ed".U, "h3fec7cc91538f992".U, "h3fb06d881c20db10".U, "h3fdd4afc3a3a95f8".U, "h3fce7ff5213cffea".U, "h3fecdee37739bdc7".U, "h3fd1110d3822221a".U, "h3fd803641f3006c8".U, "h3fe066b09060cd61".U, "h3fe102eb7f2205d7".U, "h3fdc02411f380482".U, "h3fedc9319fbb9263".U, "h3fd231dcf52463ba".U, "h3fe47ab4dae8f56a".U, "h3fe602f5e3ec05ec".U, "h3fdc2aac2e385558".U, "h3fea88d0bb3511a1".U, "h3fcd4ed43b3a9da8".U, "h3fd66c4d192cd89a".U, "h3fee9b634f3d36c7".U, "h3fe508a27b2a1145".U, "h3fdc21bfedb84380".U, "h3fd97ffc8132fff9".U, "h3fe5e51e3fabca3c".U, "h3fdee1207dbdc241".U, "h3fee6877aabcd0ef".U, "h3fc2e685fb25cd0c".U, "h3fe483bb74690777".U, "h3fe3d3bc0167a778".U, "h3fe926eddf324ddc".U, "h3fdc9c32bab93865".U, "h3fc80115be30022b".U, "h3fe1ce6322639cc6".U, "h3fc5b5af5c2b6b5f".U, "h3fba696d5034d2db".U, "h3fdfb55b07bf6ab6".U, "h3fef8315ec7f062c".U, "h3fe5e6f93c6bcdf2".U, "h3fe7fe1f816ffc3f".U, "h3fd2d385fba5a70c".U, "h3fe2b4213a656842".U, "h3fc381823a270304".U, "h3fc00f8fca201f20".U, "h3fc5014acb2a0296".U, "h3fb31462902628c5".U, "h3faae51d9035ca3b".U, "h3fc68e121f2d1c24".U, "h3fe9878fc7b30f20".U, "h3fe50291c72a0524".U, "h3fe476715928ece3".U, "h3fb7ee56282fdcac".U, "h3fe0a58f96a14b1f".U, "h3fb1e562bc23cac5".U, "h3fdd87e9bcbb0fd3".U, "h3fe258a04ee4b141".U, "h3faa97b990352f73".U, "h3feffff2847fffe5".U, "h3fec7a844278f509".U, "h3fefedf82abfdbf0".U, "h3febdb766b37b6ed".U, "h3f710bc360221787".U, "h3fe3012a2be60254".U, "h3fc4e17e3329c2fc".U, "h3fed3783b8fa6f07".U, "h3fd6fb6b242df6d6".U, "h3fe28ab0c5651562".U, "h3fe5ff13eeebfe28".U, "h3fe0fc6108a1f8c2".U, "h3fd379925d26f325".U, "h3fe2768c1f64ed18".U, "h3fe7ee0dc2efdc1c".U, "h3fa222b068244561".U, "h3feaa9e3dff553c8".U, "h3febf1d6be37e3ad".U
     )
@@ -35,7 +63,35 @@ class FPUUnitTester(c: FPU) extends PeekPokeTester(c) {
     "h4072da4000000000".U, "h4072da4000000000".U, "hc072da4000000000".U, "hc072da4000000000".U, "hc072da4000000000".U, "hc072da4000000000".U, "h4072da4000000000".U, "h4072da4000000000".U, "hc023b81d7dbf4880".U, "hc023b81d7dbf4880".U, "h0000000000000000".U, "h0000000000000000".U, "h7ff8000000000000".U, "h7ff8000000000000".U, "hfff8000000000000".U, "hfff8000000000000".U, "h7ff0000000000000".U, "hfff0000000000000".U, "hfff0000000000000".U, "h7ff0000000000000".U, "h7ff0000000000000".U, "hfff0000000000000".U, "h3fd534ee8003857d".U, "h3fe4021c957288f2".U, "h3fc70d6cad6b18d4".U, "h3fd07b56e553e17f".U, "h3fc3b24d4dd4e6d4".U, "h3fd336d2aae12fc5".U, "h3fc7f8d036a6eb49".U, "h3febeaee7f79e8b6".U, "h3fdd2f01c0f5a9dc".U, "h3fb600b5ee31864e".U, "h3f703783d51636ee".U, "h3fbc407373ce3943".U, "h3fb014f20a6c39be".U, "h3f8cec2ccb9bcbcc".U, "h3fcbe8268d6f457f".U, "h3fdb8bcd5b782515".U, "h3fc736d45402fda1".U, "h3fd5648618f4323d".U, "h3fdebab2f0ef8970".U, "h3fcce19c2e85b2fa".U, "h3fd9f480a3306a1b".U, "h3fd6d6111d9be55b".U, "h3fb9903489b92d72".U, "h3fe7c11654326600".U, "h3fb0f3d4d8adf0e7".U, "h3fa72cf88db422d6".U, "h3fc0514f7a80fb5b".U, "h3fd3e0cd7b6ccc97".U, "h3f550d48c4395a3f".U, "h3f9d9279e78216be".U, "h3fcd9aab8ab9123a".U, "h3fe8910da4fd633e".U, "h3fc26c7b4a38ab6d".U, "h3fd2418bdb643f76".U, "h3fd5e72137ce0737".U, "h3f9562020acb8f4e".U, "h3fda197e90bbb37f".U, "h3fe57966c00b3e7b".U, "h3fcadffbc5ff02c1".U, "h3fcd00b1762b7602".U, "h3fbd3a101f962b4d".U, "h3fd8c9ef332dbc44".U, "h3fd187d697dd27ad".U, "h3fca2ed20b58be37".U, "h3fcecb6257a62009".U, "h3fe204394a874c54".U, "h3fe20fa8888e090c".U, "h3fd9fe32fcc64f0b".U, "h3fd4c6c98449b700".U, "h3fe3f21b1a704d06".U, "h3fbaa87ea95784d7".U, "h3febfab55c524cce".U, "h3fc0a70a36596ca2".U, "h3fd1b901e4523e20".U, "h3fc64a54ead3cb60".U, "h3fceeecc43b23a21".U, "h3fb9e032ebfa32a2".U, "h3faa85f12c83d72c".U, "h3fcdaa4be73cfbf4".U, "h3fc3afbb09ff2c6d".U, "h3f8aa397f7739fad".U, "h3fd81d0c3f852ce7".U, "h3fed76c1da08401a".U, "h3fd0c90dbf18fc9b".U, "h3fd1b0c0f1b1787b".U, "h3fb17d8f457f8361".U, "h3fc2491e9ec7759b".U, "h3fbc8ffadf1fd6f2".U, "h3fb97cce0cb2c170".U, "h3fbf4ceede7ff9a4".U, "h3fb220ac8433fb9e".U, "h3f9c0e0c56f69cfe".U, "h3fa5a88c6c4ae01b".U, "h3fe2b44edd9d6133".U, "h3fe4534176d0dd1f".U, "h3fdf17a7ac633f59".U, "h3f89d3a91d48ad64".U, "h3fa4d641ae960680".U, "h3f8d4cd4c02bed64".U, "h3fd834b05f67d7c0".U, "h3fdbb95c8b588262".U, "h3f80c93ae45e20ad".U, "h3fca2765993e57e3".U, "h3fbc95d70fc4be70".U, "h3fab9dd6fb37fb32".U, "h3fb01e7b236f0aaf".U, "h3f6f781c32e00eca".U, "h3fbb6c538789570e".U, "h3fb05b8e03ea4e87".U, "h3fe7f2ebfc0468db".U, "h3fc965005072561d".U, "h3fd0c879961fc917".U, "h3fb188a5cc50e7cc".U, "h3fd9ba005216c00b".U, "h3fd352d37feeb7c1".U, "h3fe0341544cd1951".U, "h3fde1978db25418e".U, "h3f9b1fa1e6716d56".U, "h3fe8ac84c7bfe5c4".U, "h3fe7391bcfa54578".U
     )
 
-//    poke(c.io.inputType, 0) // ask for float
+    val doubleCastToUIntInput = Array(
+    "h4008000000000000".U
+    )
+    val doubleCastToUIntOutput = Array(
+    "h0000000000000003".U
+    )
+
+    val doubleCastToSIntInput = Array(
+    "h4008000000000000".U, "hc008000000000000".U
+    )
+    val doubleCastToSIntOutput = Array(
+    "h0000000000000003".U, "hfffffffffffffffd".U
+    )
+
+    val uIntCastToDoubleInput = Array(
+    "h0000000000000003".U, "h000000006b8b4567".U, "h00000000327b23c6".U, "h00000000643c9869".U, "h0000000066334873".U, "h0000000074b0dc51".U, "h0000000000000000".U
+    )
+    val uIntCastToDoubleOutput = Array(
+    "h4008000000000000".U, "h41dae2d159c00000".U, "h41c93d91e3000000".U, "h41d90f261a400000".U, "h41d98cd21cc00000".U, "h41dd2c3714400000".U, "h0000000000000000".U
+    )
+
+    val sIntCastToDoubleInput = Array(
+    "hfffffffffffffffb".U, "hfffffffffffffffc".U, "hfffffffffffffffd".U, "hfffffffffffffffe".U, "hffffffffffffffff".U, "h0000000000000000".U, "h0000000000000001".U, "h0000000000000002".U, "h0000000000000003".U, "h0000000000000004".U, "h0000000000000005".U, "h000000006b8b4567".U, "h00000000327b23c6".U, "h00000000643c9869".U, "h0000000066334873".U, "h0000000014b0dc51".U, "hffffffff9474ba99".U, "hffffffffcd84dc3a".U, "hffffffff9bc36797".U, "hffffffff99ccb78d".U, "hffffffffeb4f23af".U
+    )
+    val sIntCastToDoubleOutput = Array(
+    "hc014000000000000".U, "hc010000000000000".U, "hc008000000000000".U, "hc000000000000000".U, "hbff0000000000000".U, "h0000000000000000".U, "h3ff0000000000000".U, "h4000000000000000".U, "h4008000000000000".U, "h4010000000000000".U, "h4014000000000000".U, "h41dae2d159c00000".U, "h41c93d91e3000000".U, "h41d90f261a400000".U, "h41d98cd21cc00000".U, "h41b4b0dc51000000".U, "hc1dae2d159c00000".U, "hc1c93d91e3000000".U, "hc1d90f261a400000".U, "hc1d98cd21cc00000".U, "hc1b4b0dc51000000".U
+    )
+
+    poke(c.io.inputType, 0) // ask for float
 //    poke(c.io.operand, 1) // ask for addition
 //    for (i <- 0 to 121) {
 //        poke(c.io.operand1, floatInput1(i))
@@ -52,14 +108,46 @@ class FPUUnitTester(c: FPU) extends PeekPokeTester(c) {
 //        expect(c.io.result, floatOutputMul(i))
 //    }
 
-    poke(c.io.inputType, 1) // ask for double
-    poke(c.io.operand, 1) // ask for addition
-    for (i <- 0 to 121) {
-        poke(c.io.operand1, doubleInput1(i))
-        poke(c.io.operand2, doubleInput2(i))
+    poke(c.io.operand, 2) // ask for converstion to uint
+    for (i <- 0 to 4) {
+        poke(c.io.operand1, floatCastToUIntInput(i))
+        poke(c.io.operand2, 1.U)
         step(1)
-        expect(c.io.result, doubleOutputAdd(i))
+        expect(c.io.result, floatCastToUIntOutput(i))
     }
+
+    poke(c.io.operand, 3) // ask for converstion to uint
+    for (i <- 0 to 9) {
+        poke(c.io.operand1, floatCastToSIntInput(i))
+        poke(c.io.operand2, 1.U)
+        step(1)
+        expect(c.io.result, floatCastToSIntOutput(i))
+    }
+
+    poke(c.io.operand, 4) // ask for converstion to double from uint
+    for (i <- 0 to 4) {
+        poke(c.io.operand1, uIntCastToFloatInput(i))
+        poke(c.io.operand2, 1.U)
+        step(1)
+        expect(c.io.result, uIntCastToFloatOutput(i))
+    }
+
+    poke(c.io.operand, 5) // ask for converstion to double from sint
+    for (i <- 0 to 10) {
+        poke(c.io.operand1, sIntCastToFloatInput(i))
+        poke(c.io.operand2, 1.U)
+        step(1)
+        expect(c.io.result, sIntCastToFloatOutput(i))
+    }
+
+    poke(c.io.inputType, 1) // ask for double
+//    poke(c.io.operand, 1) // ask for addition
+//    for (i <- 0 to 121) {
+//        poke(c.io.operand1, doubleInput1(i))
+//        poke(c.io.operand2, doubleInput2(i))
+//        step(1)
+//        expect(c.io.result, doubleOutputAdd(i))
+//    }
 
 //    poke(c.io.operand, 0) // ask for multiplication
 //    for (i <- 0 to 121) {
@@ -68,6 +156,38 @@ class FPUUnitTester(c: FPU) extends PeekPokeTester(c) {
 //        step(1)
 //        expect(c.io.result, doubleOutputMul(i))
 //    }
+
+    poke(c.io.operand, 2) // ask for converstion to uint
+    for (i <- 0 to 0) {
+        poke(c.io.operand1, doubleCastToUIntInput(i))
+        poke(c.io.operand2, 1.U)
+        step(1)
+        expect(c.io.result, doubleCastToUIntOutput(i))
+    }
+
+    poke(c.io.operand, 3) // ask for converstion to uint
+    for (i <- 0 to 1) {
+        poke(c.io.operand1, doubleCastToSIntInput(i))
+        poke(c.io.operand2, 1.U)
+        step(1)
+        expect(c.io.result, doubleCastToSIntOutput(i))
+    }
+
+    poke(c.io.operand, 4) // ask for converstion to double from uint
+    for (i <- 0 to 6) {
+        poke(c.io.operand1, uIntCastToDoubleInput(i))
+        poke(c.io.operand2, 1.U)
+        step(1)
+        expect(c.io.result, uIntCastToDoubleOutput(i))
+    }
+
+    poke(c.io.operand, 5) // ask for converstion to double from sint
+    for (i <- 0 to 20) {
+        poke(c.io.operand1, sIntCastToDoubleInput(i))
+        poke(c.io.operand2, 1.U)
+        step(1)
+        expect(c.io.result, sIntCastToDoubleOutput(i))
+    }
 
 }
 

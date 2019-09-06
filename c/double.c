@@ -252,8 +252,126 @@ void testMul() {
     printf("%u tests failed\n", count);
 }
 
+double uint_to_double(long unsigned significand) {
+    if ((significand >= 0x0020000000000000))
+        return -1.0;
+    else if(significand == 0)
+        return 0.0;
+    int shifts = 0;
+    while ((significand & 0x0010000000000000) == 0) {
+        significand <<= 1;
+        shifts++;
+    }
+    printf("shifts = %i\n", shifts);
+    long unsigned exponent = 1023 - shifts + 52;
+    long unsigned merged = (exponent << 52) | (significand & 0x000fffffffffffff);
+    return *(double*)&merged;
+}
+
+double int_to_double(int significand) {
+    long unsigned sign = significand < 0;
+    if(sign) {
+        significand = ~(significand-1);
+    }
+    double res = uint_to_double(significand);
+    long unsigned tmp = *(long unsigned*)&res;
+    tmp = tmp|(sign<<63);
+    return *(double*)&tmp;
+}
+
+unsigned char assertEqualDouble(double a, double b) {
+    if(a != b) {
+        printf("test failed: %f != %f\n", a, b);
+    }
+    return (a != b);
+}
+unsigned char assertEqualUnsigned(long unsigned a, long unsigned b) {
+    if(a != b) {
+        printf("test failed: %lu != %lu\n", a, b);
+    }
+    return (a != b);
+}
+
+unsigned char assertEqualInt(long int a, long int b) {
+    if(a != b) {
+        printf("test failed: %li != %li\n", a, b);
+    }
+    return (a != b);
+}
+
+void testUintToDouble() {
+    printf("Test UInt -> Double\n");
+    unsigned char count = 0;
+    long unsigned t[6] = {0x6b8b4567, 0x327b23c6, 0x643c9869, 0x66334873, 0x74b0dc51, 0};
+    for (size_t i = 0; i < 6; i++) {
+        double tmp = uint_to_double(t[i]);
+        printf("%lx -> %lx\n", t[i], *(long unsigned*)&tmp);
+        count += assertEqualDouble((double)t[i], uint_to_double(t[i]));
+    }
+    printf("%u tests failed\n", count);
+}
+
+void testIntToDouble() {
+  printf("Test Int -> Double\n");
+    unsigned char count = 0;
+    long int t[12] = {0x6b8b4567, 0x327b23c6, 0x643c9869, 0x66334873, 0x14b0dc51, -0x6b8b4567, -0x327b23c6, -0x643c9869, -0x66334873, -0x14b0dc51};
+    for (size_t i = 0; i < 12; i++) {
+        double tmp = int_to_double(t[i]);
+        printf("%lx -> %lx\n", t[i], *(long unsigned*)&tmp);
+        count += assertEqualDouble((double)t[i], int_to_double(t[i]));
+    }
+    printf("%u tests failed\n", count);
+}
+
+long unsigned double_to_uint(double significand) {
+    long unsigned value = *(long unsigned*)&significand;
+    long unsigned sign = value>>63;
+    long unsigned exponent = (value<<1)>>53;
+    long unsigned mantissa = ((value<<12)>>12)|0x0010000000000000;
+    int difference = 1023-exponent;
+    mantissa = mantissa >> (52+difference);
+    // fill mantissa with zeros on the left
+    return mantissa;
+}
+
+void testDoubleToUint() {
+    printf("Test Double -> UInt\n");
+    unsigned char count = 0;
+    double t[5] = {2.0, 5.0, 0.5, 0.75, 1.5};
+    for (size_t i = 0; i < 5; i++) {
+        printf("%lx -> %lx\n", *(long unsigned*)&t[i], double_to_uint(t[i]));
+        count += assertEqualUnsigned((long unsigned)t[i], double_to_uint(t[i]));
+    }
+    printf("%u tests failed\n", count);
+}
+
+int double_to_int(double significand) {
+    unsigned char sign = significand < 0;
+    long unsigned res = double_to_uint(significand);
+    if(sign) {
+        res = (~res)+1;
+    }
+    return *(int*)&res;
+}
+
+void testDoubleToInt() {
+    printf("Test Double -> Int\n");
+    unsigned char count = 0;
+    double t[10] = {2.0, 5.0, 0.5, 0.75, 1.5, -2.0, -5.0, -0.5, -0.75, -1.5};
+    for (size_t i = 0; i < 10; i++) {
+        long int tmp = double_to_int(t[i]);
+        printf("%lx -> %lx\n", *(long unsigned*)&t[i], *(long unsigned*)&tmp);
+        count += assertEqualInt((long int)t[i], double_to_int(t[i]));
+    }
+    printf("%u tests failed\n", count);
+}
+
 int main(int argc, char const *argv[]) {
-    testAdd();
+    //testAdd();
     //testMul();
+    testUintToDouble();
+    testIntToDouble();
+    testDoubleToUint();
+    testDoubleToInt();
     return 0;
 }

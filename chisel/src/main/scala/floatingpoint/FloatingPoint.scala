@@ -1,6 +1,8 @@
 package floatingpoint
 
 import scala.math.pow
+import scala.math.log
+import scala.math.round
 
 import chisel3._
 import chisel3.util._
@@ -8,6 +10,60 @@ import chisel3.util._
 object FloatingPoint {
 
     val nan :: an :: ninfinity :: infinity :: Nil = Enum(4)
+
+    private def log2(x: Int): Int = (round(log(x)/log(2))).toInt
+
+    private def sum(vector: Array[UInt]): UInt = {
+        val length = log2(vector.length+1)
+        val temp = Array.tabulate(vector.length)(n => UInt(length.W))
+        temp(0) = Cat(0.U ((length-1).W), vector(0))
+        for (i <- 1 to vector.length-1) {
+            temp(i) = Cat(0.U ((length-1).W), vector(i))+temp(i-1)
+        }
+        return temp(vector.length-1)
+    }
+
+    private def countZerosFromTheLeft(value: UInt): UInt = {
+        val sequence = VecInit((~value).toBools)
+        val res = Array.tabulate(sequence.getWidth)(n => Wire(UInt(1.W)))
+        for (i <- 0 to sequence.getWidth-1) {
+            if(i == sequence.getWidth-1) {
+                res(i) := sequence(i)
+            }
+            else{
+                res(i) := res(i+1)&sequence(i)
+            }
+        }
+        return sum(res)+1.U // '+1.U' due to the implicit '1'
+    }
+
+    implicit class UIntToFloatingPoint(elem: UInt) {
+
+        def toFloatingPoint(exp: Int, man: Int): FloatingPoint = {
+            val res = Wire(new FloatingPoint(exp, man))
+            when(elem === 0.U) {
+                res := (0.U).asTypeOf(new FloatingPoint(exp, man))
+            }
+            .otherwise {
+                val shifts = countZerosFromTheLeft(elem(man-1, 0))
+                res.mantissa := elem << shifts
+                res.exponent := (((pow(2, exp-1)-1).toInt)+man).U-shifts
+                res.sign := 0.U
+            }
+            return res
+        }
+    }
+
+    implicit class SIntToFloatingPoint(elem: SInt) {
+
+        def toFloatingPoint(exp: Int, man: Int): FloatingPoint = {
+            val sign = (elem < 0.S)
+            val representation = Mux(sign, ~(elem.asUInt-1.U), elem.asUInt)
+            val res = representation.toFloatingPoint(exp, man)
+            res.sign := sign
+            return res
+        }
+    }
 
 }
 
@@ -137,6 +193,16 @@ class FloatingPoint(exp: Int, man: Int) extends Bundle {
             res.exponent := exponent-((pow(2, exp-1)-1).toInt).U+mantissa(man+1)
         }
         return res
+    }
+
+    def toUInt(): UInt = {
+        val difference = ((pow(2, this.exp-1)-1).toInt).U-this.exponent
+        return Cat(0.U((1+this.exp).W), Cat(1.U(1.W), mantissa)>>((this.man).U+difference))
+    }
+
+    def toSInt(): SInt = {
+        val res = this.toUInt
+        return Mux(this.sign, (~res)+1.U, res).asSInt
     }
 
 }
